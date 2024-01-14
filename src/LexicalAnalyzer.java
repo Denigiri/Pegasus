@@ -9,16 +9,8 @@ public class LexicalAnalyzer {
 
     private static final Map<Pattern, String> tokenMap = Tokens.getTokenMap(); // Access token map from separate file
 
-    static {
-        // Add your regex patterns and token names here
-        tokenMap.put(Pattern.compile("\\b(int|float|char|bool)\\b"), "DATA_TYPE");
-        tokenMap.put(Pattern.compile("[a-zA-Z]+"), "IDENTIFIER");
-        tokenMap.put(Pattern.compile("\\d+"), "INTEGER_LITERAL");
-        tokenMap.put(Pattern.compile("[=+\\-*/;]"), "OPERATOR");
-        // ... Add more patterns as needed
-    }
 
-    public static List<String[]> generateSymbolTable(String code) {
+    public static List<String[]> tokenize(String code) {
         List<String[]> symbolTable = new ArrayList<>();
         StringBuilder currentLexeme = new StringBuilder();
 
@@ -64,11 +56,16 @@ public class LexicalAnalyzer {
     //     return "UNKNOWN";
     // }
 
-    public static void main(String[] args) {
-        String code = "int num=1+1; asdfasdf";
-        List<String[]> symbolTable = generateSymbolTable(code);
+    // output aligned symbol table
+    public static void showSymbolTable( List<String[]> symbolTable) {
         for (String[] entry : symbolTable) {
             System.out.println(entry[0] + "\t\t" + entry[1]);
         }
+    }
+
+    public static void main(String[] args) {
+        String code = "int num=1+1; asdfasdf";
+        List<String[]> symbolTable = tokenize(code);
+        showSymbolTable(symbolTable);
     }
 }
