@@ -7,11 +7,15 @@ public class Tokens {
 
     static {
         // Add your regex patterns and token names here
-        tokenMap.put(Pattern.compile("\\b(int|float|char|bool)\\b"), "DATA_TYPE");
-        tokenMap.put(Pattern.compile("[a-zA-Z]+"), "IDENTIFIER");
-        tokenMap.put(Pattern.compile("\\d+"), "INTEGER_LITERAL");
-        tokenMap.put(Pattern.compile("[=+\\-*/;]"), "OPERATOR");
+        put("\\b(int|float|char|bool)\\b", "DATA_TYPE");
+        put("[a-zA-Z]+", "IDENTIFIER");
+        put("[=+\\-*/;]", "INTEGER_LITERAL");
+        put("[=+\\-*/;]", "OPERATOR");
         // ... Add more patterns as needed
+    }
+
+    public static void put(String regex, String token_name) {
+        tokenMap.put(Pattern.compile(regex), token_name);
     }
 
     public static Map<Pattern, String> getTokenMap() {
