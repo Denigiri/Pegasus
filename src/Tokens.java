@@ -12,6 +12,10 @@ public class Tokens {
     //Pronouns (Pointers)
     static {
         put("(?i)\\b(THIS|EACH|THIS|WAS)\\b", "PRONOUNS");
+        put("(?i)\\bIT\\b", "PRONOUNS_IT");
+        put("(?i)\\bEACH\\b", "PRONOUNS_EACH");
+        put("(?i)\\bTHIS\\b", "PRONOUNS_THIS");
+        put("(?i)\\bWAS\\b", "PRONOUNS_WAS");
     }
 
     //Conjunction (If-Else)
