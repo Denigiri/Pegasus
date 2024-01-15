@@ -15,7 +15,7 @@ public class LexicalAnalyzer {
         StringBuilder currentLexeme = new StringBuilder();
 
         for (int i = 0; i < code.length(); i++) {
-            char c = code.charAt(i);
+            char c = code.charAt(i); //per character
 
             // Check for matching patterns
             for (Pattern pattern : tokenMap.keySet()) {
@@ -32,7 +32,7 @@ public class LexicalAnalyzer {
 
             // Handle single-character lexemes
             if (currentLexeme.length() == 0 && !Character.isWhitespace(c)) {
-                // String lexeme = String.valueOf(c);
+                // String lexeme = String.valueOf(c); 
                 // String tokenName = getClosestTokenName(lexeme); // Check for potential misspellings
                 // symbolTable.add(new String[]{lexeme, tokenName});
             } else {
@@ -73,7 +73,8 @@ public class LexicalAnalyzer {
         String replace_long_names    = "\nRemember Principles_of_Programming_Languages as \"PPL\" "
                                         + "\nShorten \"Print_Line\" to \"println\" "
                                         + "\nRepresent \"Sum_of_A_Finite_Number_of_Terms\" as \"∑\" "; 
-        List<String[]> symbolTable = tokenize(replace_long_names);
+        String test                 = "+ - << <= if else then";
+        List<String[]> symbolTable = tokenize(test);
         showSymbolTable(symbolTable);
     }
 }
