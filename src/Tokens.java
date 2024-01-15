@@ -21,6 +21,14 @@ public class Tokens {
         put("<", "LESS_THAN_OPERATOR");
 
     }
+    //Replace Long Names
+    static {
+        put("\\bRemember\\b", "REMEMBER_KEYWORD");
+        put("\\bShorten\\b", "SHORTEN_KEYWORD");
+        put("\\bRepresent\\b", "REPRESENT_KEYWORD");
+        put("\\bto\\b", "CONVERT_KEYWORD");
+        put("\\bas\\b", "CONVERT_KEYWORD");
+    }
 
     //NAME THAT THING (IDENTIFIER, VARIABLE ASSIGNMENT)
     static {
