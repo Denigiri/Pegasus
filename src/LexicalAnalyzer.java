@@ -58,9 +58,11 @@ public class LexicalAnalyzer {
 
     // output aligned symbol table
     public static void showSymbolTable( List<String[]> symbolTable) {
+        StringBuilder table = new StringBuilder();
         for (String[] entry : symbolTable) {
-            System.out.println(entry[0] + "\t\t" + entry[1]);
+            table.append(String.format("%-20s %-20s\n", entry[0], entry[1]));
         }
+        System.out.println(table);
     }
 
     public static void main(String[] args) {
