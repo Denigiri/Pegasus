@@ -66,8 +66,8 @@ public class LexicalAnalyzer {
     }
 
     public static void main(String[] args) {
-        String code = "Hello, world! This is a test string with 123 numbers, symbols like +-*/ and escape sequences \n\t\'\"\\.";
-        String code2 = "int  x = 123; float y = 3.14e-2; boolean flag = true; char ch = 'A'; String str = \"Hello, world!\"; null";
+        String character_set = "Hello, world! This is a test string with 123 numbers, symbols like +-*/ and escape sequences \n\t\'\"\\.";
+        String variable_assignment = "int  x = 123; float y = 3.14e-2; boolean flag = true; char ch = 'A'; String str = \"Hello, world!\"; null";
         String flexible_datatype = "A Score could only be < 100\nA Score could only be \"Very Good\", \"Good\", \"Pass\", \"Fail\" \nA Choice could only be true or false";
         List<String[]> symbolTable = tokenize(flexible_datatype);
         showSymbolTable(symbolTable);
