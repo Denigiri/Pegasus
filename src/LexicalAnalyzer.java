@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+// import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -32,17 +32,17 @@ public class LexicalAnalyzer {
 
             // Handle single-character lexemes
             if (currentLexeme.length() == 0 && !Character.isWhitespace(c)) {
-                String lexeme = String.valueOf(c);
+                // String lexeme = String.valueOf(c);
                 // String tokenName = getClosestTokenName(lexeme); // Check for potential misspellings
                 // symbolTable.add(new String[]{lexeme, tokenName});
             } else {
-                currentLexeme.append(c);
+                // currentLexeme.append(c);
             }
         }
 
         // Add any remaining lexeme at the end
         if (currentLexeme.length() > 0) {
-            String lexeme = currentLexeme.toString();
+            // String lexeme = currentLexeme.toString();
             // String tokenName = getClosestTokenName(lexeme);
             // symbolTable.add(new String[]{lexeme, tokenName});
         }
@@ -50,11 +50,11 @@ public class LexicalAnalyzer {
         return symbolTable;
     }
 
-    // private static String getClosestTokenName(String lexeme) {
-    //     // Implement your Levenshtein distance calculation here to find the closest match
-    //     // For simplicity, return a default token name for now
-    //     return "UNKNOWN";
-    // }
+    private static String getClosestTokenName(String lexeme) {
+        // Implement your Levenshtein distance calculation here to find the closest match
+        // For simplicity, return a default token name for now
+        return "UNKNOWN";
+    }
 
     // output aligned symbol table
     public static void showSymbolTable( List<String[]> symbolTable) {
@@ -64,7 +64,7 @@ public class LexicalAnalyzer {
     }
 
     public static void main(String[] args) {
-        String code = "int num=1+1; asdfasdf";
+        String code = "Hello, world! This is a test string with 123 numbers, symbols like +-*/ and escape sequences \n\t\'\"\\.";
         List<String[]> symbolTable = tokenize(code);
         showSymbolTable(symbolTable);
     }
