@@ -5,10 +5,25 @@ import java.util.regex.Pattern;
 public class Tokens {
     private static final Map<Pattern, String> tokenMap = new HashMap<>();
 
+    //PUT REPETITIVE TOKENS HERE
+    static String NOISE_WORD = "\\b(a|A|the|an)\\b";
+    static String IDENTIFIER = "(?i)^(?!(RESERVED_WORDS))[a-zA-Z$_\\p{Sc}_][a-zA-Z0-9$_]*$";
+    static String RESERVED_WORDS = "(the|let|be|while|out of|is|are|if|then…)";
+
+    //SAY WHAT A THING COULD BE (FLEXIBLE DATA TYPES)
+    static {
+        put(NOISE_WORD, "NOISE_WORD");
+        put(IDENTIFIER, "DATA_TYPE_IDENTIFIER");
+        put("\\bcould\\s+only\\s+be\\b", "COULD_ONLY_BE_KEYWORD");
+        put("\\bfrom", "FROM");
+        put(",", "COMMA");
+
+
+    }
+
     //NAME THAT THING (IDENTIFIER, VARIABLE ASSIGNMENT)
     static {
         put("[a-zA-Z$_][a-zA-Z0-9$_]*", "IDENTIFIER");
-
     }
 
     //SAY A THING (LITERALS, EXPRESSIONS)
@@ -27,20 +42,20 @@ public class Tokens {
     }
     //USE ENGLISH! (CHARACTER SET)
     static {
-        put("[a-zA-Z]+", "ALPHABET");
-        put("[a-z]+", "LOWERCASE_LETTERS");
-        put("[A-Z]+", "UPPERCASE_LETTERS");
-        put("[0-9]+","DIGITS");
-        put("[+]|[-]", "SIGN"); 
-        put("[+|-|*|/|!|?]", "SYMBOL");
-        put("[0-7]+", "OCTAL_DIGITS");
-        put("[0-9A-F]+", "HEXADECIMAL_DIGITS"); 
-        put("\\\\'", "SINGLE_QUOTE_ESCAPE");
-        put("\\\\\"", "DOUBLE_QUOTE_ESCAPE");
-        put("\\\\\\\\", "BACKSLASH_ESCAPE");
-        put("\\\\t", "TAB_ESCAPE");
-        put("\\\\b", "BACKSPACE_ESCAPE");
-        put("\\\\n", "NEWLINE_ESCAPE");
+        // put("[a-zA-Z]+", "ALPHABET");
+        // put("[a-z]+", "LOWERCASE_LETTERS");
+        // put("[A-Z]+", "UPPERCASE_LETTERS");
+        // put("[0-9]+","DIGITS");
+        // put("[+]|[-]", "SIGN"); 
+        // put("[+|-|*|/|!|?]", "SYMBOL");
+        // put("[0-7]+", "OCTAL_DIGITS");
+        // put("[0-9A-F]+", "HEXADECIMAL_DIGITS"); 
+        // put("\\\\'", "SINGLE_QUOTE_ESCAPE");
+        // put("\\\\\"", "DOUBLE_QUOTE_ESCAPE");
+        // put("\\\\\\\\", "BACKSLASH_ESCAPE");
+        // put("\\\\t", "TAB_ESCAPE");
+        // put("\\\\b", "BACKSPACE_ESCAPE");
+        // put("\\\\n", "NEWLINE_ESCAPE");
     }
 
     //BLANKS AND SPACES
