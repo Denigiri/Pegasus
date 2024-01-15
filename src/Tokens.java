@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Tokens {
     private static final Map<Pattern, String> tokenMap = new HashMap<>();
-    
+
     //SAY A THING (LITERALS, EXPRESSIONS)
     static {
         put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
