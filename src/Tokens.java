@@ -9,7 +9,7 @@ public class Tokens {
         // Add your regex patterns and token names here
         put("\\b(int|float|char|bool)\\b", "DATA_TYPE");
         put("[a-zA-Z]+", "IDENTIFIER");
-        put("[=+\\-*/;]", "INTEGER_LITERAL");
+        put("[0-9]", "INTEGER_LITERAL");
         put("[=+\\-*/;]", "OPERATOR");
         // ... Add more patterns as needed
     }
