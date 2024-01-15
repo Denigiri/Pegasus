@@ -5,6 +5,12 @@ import java.util.regex.Pattern;
 public class Tokens {
     private static final Map<Pattern, String> tokenMap = new HashMap<>();
 
+    //NAME THAT THING (IDENTIFIER, VARIABLE ASSIGNMENT)
+    static {
+        put("[a-zA-Z$_][a-zA-Z0-9$_]*", "IDENTIFIER");
+
+    }
+
     //SAY A THING (LITERALS, EXPRESSIONS)
     static {
         put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
