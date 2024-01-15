@@ -60,7 +60,7 @@ public class LexicalAnalyzer {
     public static void showSymbolTable( List<String[]> symbolTable) {
         StringBuilder table = new StringBuilder();
         for (String[] entry : symbolTable) {
-            table.append(String.format("%-20s %-20s\n", entry[0], entry[1]));
+            table.append(String.format("%-25s %-20s\n", entry[0], entry[1]));
         }
         System.out.println(table);
     }
@@ -70,9 +70,9 @@ public class LexicalAnalyzer {
         String variable_assignment   = "int  x = 123; float y = 3.14e-2; boolean flag = true; char ch = 'A'; String str = \"Hello, world!\"; null";
         String flexible_datatype     = "The A An Score could only be < 100\nA Score could only be \"Very Good\", \"Good\", \"Pass\", \"Fail\" "
                                         + "\nA Choice could only be true or false";
-        String replace_long_names    = "Remember Principles_of_Programming_Languages as \"PPL\" "
-                                        + "Shorten \"Print_Line\" to \"println\" "
-                                        + "Represent \"Sum_of_A_Finite_Number_of_Terms\" as \"∑\" "; 
+        String replace_long_names    = "\nRemember Principles_of_Programming_Languages as \"PPL\" "
+                                        + "\nShorten \"Print_Line\" to \"println\" "
+                                        + "\nRepresent \"Sum_of_A_Finite_Number_of_Terms\" as \"∑\" "; 
         List<String[]> symbolTable = tokenize(replace_long_names);
         showSymbolTable(symbolTable);
     }
