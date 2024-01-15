@@ -65,7 +65,8 @@ public class LexicalAnalyzer {
 
     public static void main(String[] args) {
         String code = "Hello, world! This is a test string with 123 numbers, symbols like +-*/ and escape sequences \n\t\'\"\\.";
-        List<String[]> symbolTable = tokenize(code);
+        String code2 = "int  x = 123; float y = 3.14e-2; boolean flag = true; char ch = 'A'; String str = \"Hello, world!\"; null";
+        List<String[]> symbolTable = tokenize(code2);
         showSymbolTable(symbolTable);
     }
 }

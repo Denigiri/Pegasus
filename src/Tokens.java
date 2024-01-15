@@ -4,7 +4,21 @@ import java.util.regex.Pattern;
 
 public class Tokens {
     private static final Map<Pattern, String> tokenMap = new HashMap<>();
+    
+    //SAY A THING (LITERALS, EXPRESSIONS)
+    static {
+        put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
+        put("0x[0-9A-F]+", "HEX_INTEGER_LITERAL");
+        put("0[0-7]+", "OCTAL_INTEGER_LITERAL");
+        put("0b[01]+", "BINARY_INTEGER_LITERAL");
+        put("[0-9]+\\.[0-9]+(E[+-]?[0-9]+)?", "DECIMAL_FLOATING_POINT_LITERAL");
+        put("0x[0-9A-F]+\\.[0-9A-F]+(P[+-]?[0-9]+)?", "HEX_FLOATING_POINT_LITERAL");
+        put("true|false", "BOOLEAN_LITERAL");
+        put("'([^'\\\\\\n]|\\\\.)*'", "CHARACTER_LITERAL");
+        put("\"([^\"\\\\\\n]|\\\\.)*\"", "STRING_LITERAL");
+        put("null", "NULL_LITERAL");
 
+    }
     //USE ENGLISH! (CHARACTER SET)
     static {
         put("[a-zA-Z]+", "ALPHABET");
