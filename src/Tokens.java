@@ -10,7 +10,7 @@ public class Tokens {
     static String IDENTIFIER = "(?i)^(?!(RESERVED_WORDS))[a-zA-Z$_\\p{Sc}_][a-zA-Z0-9$_]*$";
     static String RESERVED_WORDS = "(the|let|be|while|out of|is|are|if|then…)";
 
-    //SAY WHAT A THING COULD BE (FLEXIBLE DATA TYPES)
+    //Flexible Data Types
     static {
         put("\\bAn\\s", "NOISE_WORD");
         put("\\bA", "NOISE_WORD");
@@ -30,12 +30,12 @@ public class Tokens {
         put("\\bas\\b", "CONVERT_KEYWORD");
     }
 
-    //NAME THAT THING (IDENTIFIER, VARIABLE ASSIGNMENT)
+    //Identifier, Variable Assignment
     static {
         put("[a-zA-Z$_][a-zA-Z0-9$_]*", "IDENTIFIER");
     }
 
-    //SAY A THING (LITERALS, EXPRESSIONS)
+    //Literals, Expressions
     static {
         put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
         put("0x[0-9A-F]+", "HEX_INTEGER_LITERAL");
@@ -51,7 +51,11 @@ public class Tokens {
     }
     //USE ENGLISH! (CHARACTER SET)
     static {
-        // put("[a-zA-Z]+", "ALPHABET");
+        put("\\n", "DELIMITER");
+    }
+    
+    //Character Set
+    static {
         // put("[a-z]+", "LOWERCASE_LETTERS");
         // put("[A-Z]+", "UPPERCASE_LETTERS");
         // put("[0-9]+","DIGITS");
@@ -67,14 +71,12 @@ public class Tokens {
         // put("\\\\n", "NEWLINE_ESCAPE");
     }
 
-    //BLANKS AND SPACES
+    //Blanks and Spaces
     static {
-        // Add your regex patterns and token names here
-        put("\\s{2,}", "** WARNING: EXCESS WHITESPACES **");
-        //COPY THE put() funciton above and add your regex patterns and token names here
+        put("\\s{2,}", "WARNING: EXCESS WHITESPACES");
     }
 
-    //INSERT TITLE OF YOUR PART
+    //Insert title of your part
     static {
         // Add your regex patterns and token names here
         
