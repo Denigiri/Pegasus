@@ -12,12 +12,13 @@ public class Tokens {
 
     //SAY WHAT A THING COULD BE (FLEXIBLE DATA TYPES)
     static {
-        put(NOISE_WORD, "NOISE_WORD");
-        put(IDENTIFIER, "DATA_TYPE_IDENTIFIER");
+        put("\\bAn\\s", "NOISE_WORD");
+        put("\\bA", "NOISE_WORD");
+        put("\\b(The)\\b", "NOISE_WORD");
         put("\\bcould\\s+only\\s+be\\b", "COULD_ONLY_BE_KEYWORD");
         put("\\bfrom", "FROM");
         put(",", "COMMA");
-
+        put("<", "LESS_THAN_OPERATOR");
 
     }
 
