@@ -23,6 +23,13 @@ public class Tokens {
         put("\\\\n", "NEWLINE_ESCAPE");
     }
 
+    //BLANKS AND SPACES
+    static {
+        // Add your regex patterns and token names here
+        put("\\s{2,}", "** WARNING: EXCESS WHITESPACES **");
+        //COPY THE put() funciton above and add your regex patterns and token names here
+    }
+
     //INSERT TITLE OF YOUR PART
     static {
         // Add your regex patterns and token names here
