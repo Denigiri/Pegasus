@@ -14,11 +14,22 @@ public class LexicalAnalyzer {
         List<String[]> symbolTable = new ArrayList<>();
         StringBuilder currentLexeme = new StringBuilder();
 
-        for (int i = 0; i < code.length(); i++) {
+        for (int i = 0; i < 1; i++) {
             char c = code.charAt(i); //per character
+            System.out.println(c);
 
             // Check for matching patterns
+            // for (iterable_type iterable_element : iterable) {
+                
+            // }
+            // for (iterable_type iterable_element : iterable) {
+                
+            // }
+
+
             for (Pattern pattern : tokenMap.keySet()) {
+                System.out.println(tokenMap.values());
+                
                 Matcher matcher = pattern.matcher(code.substring(i));
                 if (matcher.lookingAt()) {
                     String lexeme = matcher.group();
@@ -74,6 +85,7 @@ public class LexicalAnalyzer {
                                         + "\nShorten \"Print_Line\" to \"println\" "
                                         + "\nRepresent \"Sum_of_A_Finite_Number_of_Terms\" as \"∑\" "; 
         String test                 = "+ - << <= if else then";
+        String test2 = "This";
         List<String[]> symbolTable = tokenize(test);
         showSymbolTable(symbolTable);
     }
