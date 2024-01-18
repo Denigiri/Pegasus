@@ -25,90 +25,90 @@ public class Tokens {
         put("(?i)\\bELSE\\b", "CONJUNCTION_ELSE");
     }
 
-    // //Operators
+    //Operators
         //Arithmethic Operators
         static {
-            put("(?i)\\b(+|-|*|/|%)\\b", "ARITHMETHIC_OPERATORS");
+            put("(?i)\\b(+| - |*|/|%)\\b", "ARITHMETHIC_OPERATORS");
         }
 
-    //Relational Operators
-            static {
-                put("(?i)\\b(<|>|<=|>=|==|!=)\\b", "RELATIONAL_OPERATORS");
+        //Relational Operators
+        static {
+            put("(?i)\\b(<|>|<=|>=|==|!=)\\b", "RELATIONAL_OPERATORS");
         }
 
-    //Conditional Operators
+        //Conditional Operators
         static {       
             put("\\&&", "AND_OPERATOR");
             put("\\||", "OR_OPERATOR");
             put("\\!", "NOT_OPERATOR");
         }
 
-    // //Repetitive Tokens
-    // static String NOISE_WORD = "\\b(A|The|An|a|the|an)\\b";
-    // static String IDENTIFIER = "(?i)^(?!(RESERVED_WORDS))[a-zA-Z$_\\p{Sc}_][a-zA-Z0-9$_]*$";
-    // static String RESERVED_WORDS = "(the|let|be|while|out of|is|are|if|then…)";
+    //Repetitive Tokens
+    static String NOISE_WORD = "\\b(A|The|An|a|the|an)\\b";
+    static String IDENTIFIER = "(?i)^(?!(RESERVED_WORDS))[a-zA-Z$_\\p{Sc}_][a-zA-Z0-9$_]*$";
+    static String RESERVED_WORDS = "(the|let|be|while|out of|is|are|if|then…)";
 
-    // //Flexible Data Types
-    // static {
-    //     put("\\bAn\\s", "NOISE_WORD");
-    //     put("\\bA", "NOISE_WORD");
-    //     put("\\b(The)\\b", "NOISE_WORD");
-    //     put("\\bcould\\s+only\\s+be\\b", "COULD_ONLY_BE_KEYWORD");
-    //     put("\\bfrom", "FROM");
-    //     put(",", "COMMA");
-    //     put("<", "LESS_THAN_OPERATOR");
+    //Flexible Data Types
+    static {
+        put("\\bAn\\s", "NOISE_WORD");
+        put("\\bA", "NOISE_WORD");
+        put("\\b(The)\\b", "NOISE_WORD");
+        put("\\bcould\\s+only\\s+be\\b", "COULD_ONLY_BE_KEYWORD");
+        put("\\bfrom", "FROM");
+        put(",", "COMMA");
+        put("<", "LESS_THAN_OPERATOR");
 
-    // }
-    // //Replace Long Names
-    // static {
-    //     put("\\bRemember\\s\\b", "REMEMBER_KEYWORD");
-    //     put("\\bShorten\\b", "SHORTEN_KEYWORD");
-    //     put("\\bRepresent\\b", "REPRESENT_KEYWORD");
-    //     put("\\bto\\b", "CONVERT_KEYWORD");
-    //     put("\\bas\\b", "CONVERT_KEYWORD");
-    // }
+    }
+    //Replace Long Names
+    static {
+        put("\\bRemember\\s\\b", "REMEMBER_KEYWORD");
+        put("\\bShorten\\b", "SHORTEN_KEYWORD");
+        put("\\bRepresent\\b", "REPRESENT_KEYWORD");
+        put("\\bto\\b", "CONVERT_KEYWORD");
+        put("\\bas\\b", "CONVERT_KEYWORD");
+    }
 
-    // //Identifier, Variable Assignment
-    // static {
-    //     put("[a-zA-Z$_][a-zA-Z0-9$_]*", "IDENTIFIER");
-    // }
+    //Identifier, Variable Assignment
+    static {
+        put("[a-zA-Z$_][a-zA-Z0-9$_]*", "IDENTIFIER");
+    }
 
-    // //Literals, Expressions
-    // static {
-    //     put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
-    //     put("0x[0-9A-F]+", "HEX_INTEGER_LITERAL");
-    //     put("0[0-7]+", "OCTAL_INTEGER_LITERAL");
-    //     put("0b[01]+", "BINARY_INTEGER_LITERAL");
-    //     put("[0-9]+\\.[0-9]+(E[+-]?[0-9]+)?", "DECIMAL_FLOATING_POINT_LITERAL");
-    //     put("0x[0-9A-F]+\\.[0-9A-F]+(P[+-]?[0-9]+)?", "HEX_FLOATING_POINT_LITERAL");
-    //     put("true|false", "BOOLEAN_LITERAL");
-    //     put("'([^'\\\\\\n]|\\\\.)*'", "CHARACTER_LITERAL");
-    //     put("\"([^\"\\\\\\n]|\\\\.)*\"", "STRING_LITERAL");
-    //     put("null", "NULL_LITERAL");
+    //Literals, Expressions
+    static {
+        put("[0-9]+", "DECIMAL_INTEGER_LITERAL");
+        put("0x[0-9A-F]+", "HEX_INTEGER_LITERAL");
+        put("0[0-7]+", "OCTAL_INTEGER_LITERAL");
+        put("0b[01]+", "BINARY_INTEGER_LITERAL");
+        put("[0-9]+\\.[0-9]+(E[+-]?[0-9]+)?", "DECIMAL_FLOATING_POINT_LITERAL");
+        put("0x[0-9A-F]+\\.[0-9A-F]+(P[+-]?[0-9]+)?", "HEX_FLOATING_POINT_LITERAL");
+        put("true|false", "BOOLEAN_LITERAL");
+        put("'([^'\\\\\\n]|\\\\.)*'", "CHARACTER_LITERAL");
+        put("\"([^\"\\\\\\n]|\\\\.)*\"", "STRING_LITERAL");
+        put("null", "NULL_LITERAL");
 
-    // }
+    }
 
-    // //Delimiter
-    //  static {
-    //     put("\\n", "DELIMITER");
-    // }
+    //Delimiter
+     static {
+        put("\\n", "DELIMITER");
+    }
     
-    // //Character Set
-    // static {
-    //     put("[a-z]+", "LOWERCASE_LETTERS");
-    //     put("[A-Z]+", "UPPERCASE_LETTERS");
-    //     put("[0-9]+","DIGITS");
-    //     put("[+]|[-]", "SIGN"); 
-    //     put("[+|-|*|/|!|?]", "SYMBOL");
-    //     put("[0-7]+", "OCTAL_DIGITS");
-    //     put("[0-9A-F]+", "HEXADECIMAL_DIGITS"); 
-    //     put("\\\\'", "SINGLE_QUOTE_ESCAPE");
-    //     put("\\\\\"", "DOUBLE_QUOTE_ESCAPE");
-    //     put("\\\\\\\\", "BACKSLASH_ESCAPE");
-    //     put("\\\\t", "TAB_ESCAPE");
-    //     put("\\\\b", "BACKSPACE_ESCAPE");
-    //     put("\\\\n", "NEWLINE_ESCAPE");
-    // }
+    //Character Set
+    static {
+        put("[a-z]+", "LOWERCASE_LETTERS");
+        put("[A-Z]+", "UPPERCASE_LETTERS");
+        put("[0-9]+","DIGITS");
+        put("[+]|[-]", "SIGN"); 
+        put("[+|-|*|/|!|?]", "SYMBOL");
+        put("[0-7]+", "OCTAL_DIGITS");
+        put("[0-9A-F]+", "HEXADECIMAL_DIGITS"); 
+        put("\\\\'", "SINGLE_QUOTE_ESCAPE");
+        put("\\\\\"", "DOUBLE_QUOTE_ESCAPE");
+        put("\\\\\\\\", "BACKSLASH_ESCAPE");
+        put("\\\\t", "TAB_ESCAPE");
+        put("\\\\b", "BACKSPACE_ESCAPE");
+        put("\\\\n", "NEWLINE_ESCAPE");
+    }
 
     //Blanks and Spaces
     static {
