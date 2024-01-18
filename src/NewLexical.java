@@ -7,9 +7,6 @@ public class NewLexical {
                         + "A Score could only be \"Very Good\", \"Good\", \"Pass\", \"Fail\" ";
 
         Scanner sc = new Scanner(code);
-        String digits_and_operators = "(?<=\\d | \s+)(?=\\D)|(?<=\\D | \s+)(?=\\d)"; // Split between digits and operators with or without spaces
-        String whitespaces = "\s+";
-        String string_literals = "(?<=\")\\s+(?=\")|(?<=')\\s+(?=')";  
 
         // ATTEMPT #3
             //separate keywords by whitespaces
