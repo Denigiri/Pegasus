@@ -13,11 +13,19 @@ public class NewLexical {
             sc.useDelimiter("\s");
 
             //separate literals from operators in expressions
+            String bef = "?<="; //look before
+            String aft = "?="; //look after
+            String digits = "\\d";
+            String spaces  = "\\s*";
+            String op = "[+-/*%<>=&|]"; 
+            String or = "|";
 
-            sc.useDelimiter("(?<=\\d\\s*)(?=[+-/*%])"
-                            + "|(?<=[+-/*%]\\s)(?=\\d)"
-                            + "|(?<=\\d)(?=[+-/*%])"
-                            + "|(?<=[+-/*%])(?=\\d)");
+            // String split_expressions = "("+bef + digits + spaces+")" + "("+aft + op+")"
+            //                          + or + "("+bef + op + spaces+")" + "("+aft + digits+")"
+            //                          + or + "("+bef + digits+")" + "("+aft + op+")"
+            //                          + or + "("+bef + op+")" + "("+aft + digits+")";
+            // String split_keywords = "\s";
+            // sc.useDelimiter(split_expressions);
 
             //separate string literals only by double quotations
             //"hello world"
