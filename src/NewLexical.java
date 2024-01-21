@@ -61,8 +61,9 @@ public class NewLexical {
             // PrintStream fileOut = new PrintStream(new File(outputFilePath));
             // System.setOut(fileOut);
 
-            String code = "Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            Scanner sc = new Scanner(code);
+            String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
+            String code2 = "Represent Principles_of_Programming_language as PPL";
+            Scanner sc = new Scanner(code2);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -88,8 +89,23 @@ public class NewLexical {
 
             while (sc.hasNext()) {
                 String lexeme = sc.next();
-                if (matches(lexeme, "\\d+")) {
-                    print(lexeme, "INTEGER");
+
+                //FLEXIBLE DATA TYPES
+                if (isToken(lexeme, "could")) { 
+                    print(lexeme, "DATATYPE_LIMITER");
+                } 
+                else if(isToken(lexeme, "only")) { 
+                    print(lexeme, "DATATYPE_LIMITER");
+                } 
+
+                //ASSIGNMENT
+                else if(isToken(lexeme, "let")) { 
+                    print(lexeme, "VARIABLE_INITIALIZER");
+                } 
+                else if(isToken(lexeme, "be")) { 
+                    print(lexeme, "ASSIGNMENT_KEYWORD");
+                } 
+
                 
                 //PRONOUNS (POINTERS)
                 //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
@@ -99,22 +115,20 @@ public class NewLexical {
                           isToken(lexeme, "it") ||
                           isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
- 
-                //ADJECTIVES (Data Type & Variable Modifiers)
+                
+                } else if(matches(lexeme, "Remember")) { 
+                    print(lexeme, "KEYWORD_CONVERTER");
+                } else if(matches(lexeme, "Shorten")) { 
+                    print(lexeme, "KEYWORD_CONVERTER");
+                } else if(matches(lexeme, "Represent")) { 
+                    print(lexeme, "KEYWORD_CONVERTER");
+                } else if(matches(lexeme, "Represent")) { 
+                    print(lexeme, "KEYWORD_CONVERTER");
+                } else if(matches(lexeme, "to")) { 
+                    print(lexeme, "PREPOSITION_TO");
+                } else if(matches(lexeme, "as")) { 
+                    print(lexeme, "PREPOSITION_AS");
 
-                } else if (isToken(lexeme, "always")) {
-                    print(lexeme, "ALWAYS");
-                //Numerical
-                } else if (isToken(lexeme, "discrete")) {
-                    print(lexeme, "DISCRETE");
-                } else if (isToken(lexeme, "continuous")) {
-                    print(lexeme, "CONTINUOUS");
-                //Categorical
-                } else if (isToken(lexeme, "order")) {
-                    print(lexeme, "ORDINAL");
-                } else if (isToken(lexeme, "boolean")) {
-                    print(lexeme, "BINARY");
-                    
                 //CONJUNCTIONS (IF-ELSE)
                 //} else if (matches(lexeme,"[Ii]f")) {
                 } else if (isToken(lexeme, "if")) { 
@@ -178,13 +192,13 @@ public class NewLexical {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
-                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*") ) {
+                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
                         print(lexeme, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
                     } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
-                    } else if (lexeme.equals("||") && (lexeme.length() == 1)) {
+                    } else if (matches(lexeme,"||")) {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
@@ -196,53 +210,42 @@ public class NewLexical {
                 } else if (matches(lexeme,"\\n")) {
                     print(lexeme, "STATEMENT_DELIMETER");
 
-                //SAMPLE-ONLY
+                //BUG: FLOAT LITERAL
+                } else if (matches(lexeme, "[0-9]+")) {
+                    StringBuilder wholeLexeme = new StringBuilder();
+                    wholeLexeme.append(lexeme);
+                    String next = sc.next();
+                    if (next == ".") {
+                        wholeLexeme.append(lexeme);
+                        if (next =="[0-9]+") {
+                            wholeLexeme.append(next);
+                            print(wholeLexeme.toString(), "FLOAT_LITERAL");
+                        }
+                    }
+                } 
+                else if (matches(lexeme, "[0-9]+")) {
+                    print(lexeme, "INTEGER_LITERAL");
+                } else if (matches(lexeme, "true|false")) {
+                    print(lexeme, "BOOLEAN_LITERAL");
+                } else if (lexeme.length() == 1) {
+                    print(lexeme, "CHARACTER_LITERAL");
+                }  else if (isToken(lexeme, "null")) {
+                    print(lexeme, "NULL_LITERAL");
+                } else if (lexeme.charAt(0)=='\"') {
+                    String literal = matchNext(lexeme, "\s", "\"", sc);
+                    print(literal, "STRING_LITERAL");
+                } else if (lexeme.contains("\\\\")) {
+                    String comment = matchNext(lexeme, "\n", "\n", sc);
+                    print(comment, "COMMENTS");
+                //ERROR_HANDLING
+                } else if (lexeme.contains("/*")) {
+                    // String literal = matchNext(lexeme, "\n *", "*/", sc);
+                    // print(literal, "MULTI-LINE COMMENT");
+                //ERROR_HANDLING
                 } else if (matches(lexeme,"[a-zA-Z][a-zA-Z0-9_]*")) {
                     print(lexeme, "IDENTIFIER");
-                } else if (matches(lexeme,"\"[a-zA-Z][a-zA-Z0-9_]*\s\"")) {
-                    print(lexeme, "STRING_DELIMITER"); 
-                } else if (matches(lexeme,"[a-z]*")) {
-                    print(lexeme, "LOWERCASE_LETTERS");
-                } else if (matches(lexeme,"[A-Z]*")) {
-                    print(lexeme, "UPPERCASE_LETTERS");
-                } else if (matches(lexeme,"[a-z]*")) {
-                    print(lexeme, "UPPERCASE_LETTERS");
                 } else if (matches(lexeme,"[0-9][a-zA-Z0-9_]*")) {
                     print(lexeme, "INVALID_IDENTIFIER");
-                } else if (lexeme.charAt(0)=='\"') {
-                    StringBuilder stringLiteral = new StringBuilder();
-                    stringLiteral.append(lexeme);
-
-                    while (sc.hasNext()) {
-                        String next = sc.next();
-                        
-                        if (next.contains(String.valueOf("\""))) {
-                            // Found closing quote
-                            stringLiteral.append("\s" + next);
-                            print(stringLiteral.toString(), "STRING_LITERAL");
-                            break;
-                        } else {
-                            stringLiteral.append(next);
-                        }
-                    }
-                } else if (lexeme.contains("\\\\")) {
-                    StringBuilder singleComment = new StringBuilder();
-                    singleComment.append(lexeme);
-                    
-                    sc.useDelimiter("");
-                    while (sc.hasNext()) {
-                        String next = sc.next();
-                        if (next.contains(String.valueOf("\n"))) {
-                            // Found closing quote
-                            singleComment.append(next);
-                            break;
-                        } else {
-                            sc.useDelimiter("\n");
-                            singleComment.append(next);
-                        }
-                    }
-                    print(singleComment.toString(), "COMMENTS");
-                //ERROR_HANDLING
                 } else {
                     print(lexeme, "UNRECOGNIZED CHARACTERS");
                 }
