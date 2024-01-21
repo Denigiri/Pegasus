@@ -2,10 +2,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
+
 
 public class NewLexical {
     public static void print(String lexeme, String token) {
@@ -16,63 +15,15 @@ public class NewLexical {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
     }
 
-    public static boolean matchRegex(String lexeme, String regex) {
-        int len = regex.length();
-        int lexemeIndex = 0;  // Track position in lexeme
-        List<Character> charactersToCheck = new ArrayList<>();  // Store characters within brackets
-        StringBuilder nonBracketedText = new StringBuilder();  // Store text outside brackets
-        boolean insideBrackets = false;
-    
-        for (int i = 0; i < len; i++) {
-            char ch = regex.charAt(i);
-    
-            if (ch == '[') {
-                insideBrackets = true;
-                // Check for matching characters within brackets
-                if (!nonBracketedText.isEmpty()) {
-                    if (!lexeme.startsWith(nonBracketedText.toString(), lexemeIndex)) {
-                        return false;  // Mismatch outside brackets
-                    }
-                    lexemeIndex += nonBracketedText.length();  // Advance lexeme position
-                }
-                nonBracketedText.setLength(0);  // Reset for next bracketed section
-            } else if (ch == ']') {
-                insideBrackets = false;
-            } else if (insideBrackets) {
-                charactersToCheck.add(ch);
-            } else {
-                nonBracketedText.append(ch);
-            }
-        }
-
-        // Check for matching characters within brackets
-        if (!charactersToCheck.isEmpty()) {
-            for (char c : lexeme.toCharArray()) {
-                if (charactersToCheck.contains(c)) {
-                    return true;  // Match found
-                }
-            }
-            charactersToCheck.clear();  // Reset for next bracketed section
-        }
-    
-        // Check for final substring outside brackets
-        if (!nonBracketedText.isEmpty()) {
-            if (!lexeme.startsWith(nonBracketedText.toString(), lexemeIndex)) {
-                return false;  // Mismatch outside brackets
-            }
-        }
-        
-        return true;  // All matches found
+    public static boolean isToken(String lexeme, String token){
+        return   (lexeme.toLowerCase().equals(token) && 
+                 Character.toLowerCase(lexeme.charAt(0)) == Character.toLowerCase(token.charAt(0)) && 
+                 (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
     }
-
-    public static boolean matchString() {
-        return true;
-    }
-
     
     public static void main(String[] args) {
-        // // Create a file chooser
-        // JFileChooser inputfileChooser = new JFileChooser();
+        // Create a file chooser
+        JFileChooser inputfileChooser = new JFileChooser();
 
         // //Set the current directory for the input file chooser
         // inputfileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -138,44 +89,61 @@ public class NewLexical {
         
 
             while (sc.hasNext()) {
+
+
+            while (sc.hasNext()) {
                 String lexeme = sc.next();
                 if (matches(lexeme, "\\d+")) {
                     print(lexeme, "INTEGER");
                 
                 //PRONOUNS (POINTERS)
-                } else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
+                //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
+                //} else if (isToken(lexeme, "this") ||
+                //           isToken(lexeme, "each") ||
+                //           isToken(lexeme, "was") ||
+                //           isToken(lexeme, "it")){
+                } else if (isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
  
             
                 //CONJUNCTIONS (IF-ELSE)
-                } else if (matchRegex(lexeme,"[Ii]f")) {
+                //} else if (matches(lexeme,"[Ii]f")) {
+                } else if (isToken(lexeme, "if")) { 
                     print(lexeme, "CONJUNCTION_IF");
-                } else if (matchRegex(lexeme,"[Tt]hen")) {
+
+                } else if (isToken(lexeme, "if")) {
                     print(lexeme, "CONJUNCTION_THEN");  
-                }else  if (matchRegex(lexeme,"[Ee]lse")) {
+
+                } else if (isToken(lexeme,"else")) {
                     print(lexeme, "CONJUNCTION_ELSE");
                 
+                //UNION
+                } else if (isToken(lexeme, "union")) {
+                    print(lexeme, "UNION");
+
+
                 //OPERATORS
                     //Arithmetic
-                    }else  if (matchRegex(lexeme,"[\\+\\-*/%]")) {
+                    } else  if ("+-*/%".contains(lexeme)) {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
-                    }else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
+                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
                         print(lexeme, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
-                    } else if (matches(lexeme,"&&")) {
+                    } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
                     } else if (matches(lexeme,"||")) {
                         print(lexeme, "OR_OPERATOR");  
-                    }else  if (matches(lexeme,"!")) {
+                    } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
 
                 //DELIMETERS
                 } else if (matches(lexeme,",")) {
                     print(lexeme, "ITEM_DELIMETER");
                 }else if (matches(lexeme,"\n")) {
+                } else if (matches(lexeme,"\\n")) {
                     print(lexeme, "STATEMENT_DELIMETER");
 
                 //SAMPLE-ONLY
@@ -191,9 +159,22 @@ public class NewLexical {
                     print(lexeme, "UPPERCASE_LETTERS");
                 } else if (matches(lexeme,"[0-9][a-zA-Z0-9_]*")) {
                     print(lexeme, "INVALID_IDENTIFIER");
-                } else if (matches(lexeme,"\".*\"")) {
-                    print(lexeme, "STRING_LITERAL");
+                } else if (lexeme.charAt(0)=='\"') {
+                    StringBuilder stringLiteral = new StringBuilder();
+                    stringLiteral.append(lexeme);
 
+                    while (sc.hasNext()) {
+                        String next = sc.next();
+                        
+                        if (next.contains(String.valueOf("\""))) {
+                            // Found closing quote
+                            stringLiteral.append("\s" + next);
+                            print(stringLiteral.toString(), "STRING_LITERAL");
+                            break;
+                        } else {
+                            stringLiteral.append(next);
+                        }
+                    }
                 //ERROR_HANDLING
                 } else {
                     print(lexeme, "UNRECOGNIZED CHARACTERS");
@@ -217,3 +198,5 @@ public class NewLexical {
         }
     }
 // }
+
+}
