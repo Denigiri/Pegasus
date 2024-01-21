@@ -85,7 +85,8 @@ public class NewLexical {
 
             String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
             String code2 = "Represent Principles_of_Programming_language as PPL";
-            Scanner sc = new Scanner(code2);
+            String code3 = "after from to in";
+            Scanner sc = new Scanner(code3);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -145,10 +146,62 @@ public class NewLexical {
                     print(lexeme, "KEYWORD_CONVERTER");
                 } else if(matches(lexeme, "Represent")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "to")) { 
-                    print(lexeme, "PREPOSITION_TO");
-                } else if(matches(lexeme, "as")) { 
-                    print(lexeme, "PREPOSITION_AS");
+                //} else if(matches(lexeme, "to")) { 
+                //    print(lexeme, "PREPOSITION_TO");
+                //} else if(matches(lexeme, "as")) { 
+                //    print(lexeme, "PREPOSITION_AS");
+                // KUNG HIHIWALAYIN ANG PREPOSITION ETO CODE
+                /*
+                 *} else if (isToken(lexeme, "after")){
+                 *  print(lexeme, "PREPOSITION_AFTER")
+                 *} else if (isToken(lexeme, "from")){
+                 *  print(lexeme, "PREPOSITION_FROM")
+                 *} else if (isToken(lexeme, "to")){
+                 *  print(lexeme, "PREPOSITION_TO")
+                 *} else if (isToken(lexeme, "in")){
+                 *  print(lexeme, "PREPOSITION_IN")
+                 */
+
+                //Prepostion
+                } else if (isToken(lexeme, "after") ||
+                           isToken(lexeme, "from") ||
+                           isToken(lexeme, "to") ||
+                           isToken(lexeme, "in")){
+                    print(lexeme, "PREPOSITIONS");
+
+                //ADJECTIVES (Data Type & Variable Modifiers)
+                } else if (isToken(lexeme, "always")) {
+                    print(lexeme, "CONSTANT");
+                    //NUMERICAL
+                } else if (isToken(lexeme, "discrete")) {
+                    print(lexeme, "DISCRETE");
+                } else if (isToken(lexeme, "continuous")) {
+                    print(lexeme, "CONTINUOUS");
+                    //CATEGORICAL
+                } else if (isToken(lexeme, "order")) {
+                    print(lexeme, "ORDINAL");
+                } else if (isToken(lexeme, "boolean")) {
+                    print(lexeme, "BINARY");
+
+                //TASKS (Functions)
+                } else if (isToken(lexeme, "show")) {
+                    print(lexeme, "PRINT");
+                } else if (isToken(lexeme, "ask")) {
+                    print(lexeme, "SCAN");
+                } else if (isToken(lexeme, "read")) {
+                    print(lexeme, "READ");
+                } else if (isToken(lexeme, "write")) {
+                    print(lexeme, "WRITE");
+                } else if (isToken(lexeme, "open")) {
+                    print(lexeme, "OPEN");
+                } else if (isToken(lexeme, "close")) {
+                    print(lexeme, "CLOSE");
+                } else if (isToken(lexeme, "change")) {
+                    print(lexeme, "CHANGE");
+                } else if (isToken(lexeme, "spell")) {
+                    print(lexeme, "SPELL");
+                } else if (isToken(lexeme, "count")) {
+                    print(lexeme, "COUNT");
 
                 //CONJUNCTIONS (IF-ELSE)
                 } else if (isToken(lexeme, "if")) { 
@@ -177,7 +230,7 @@ public class NewLexical {
                     //CONDITIONAL
                     } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
-                    } else if (matches(lexeme,"||")) {
+                    } else if (lexeme.equals("||")) {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
