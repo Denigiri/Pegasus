@@ -8,7 +8,7 @@ import javax.swing.JFileChooser;
 
 public class NewLexical {
     public static void print(String lexeme, String token) {
-        System.out.printf("%-20s | %-20s\n", token, lexeme);
+        System.out.printf("%-20s | %-20s\n", lexeme, token);
     }
 
     public static boolean matches(String lexeme, String token_pattern) {
@@ -84,8 +84,8 @@ public class NewLexical {
              */
 
             String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            String code2 = "Represent Principles_of_Programming_language as PPL";
-            Scanner sc = new Scanner(code2);
+            String code2 = "Represent Principles_of_Programming_language as P.P.L.";
+            Scanner sc = new Scanner(code);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -94,16 +94,16 @@ public class NewLexical {
             //split code by...
             sc.useDelimiter(//whitespace between keywords
                             "\\s" 
-                            //if before is integer + whitespace, and after is operator
-                            + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
-                            //if before is operator + whitespace, and after is integer
-                            + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
-                            //if before is integer, and after is operator
-                            + "|(?<=\\d)(?=[+-/*%<>=&|])"
-                            //if before is operator, and after is integer
-                            + "|(?<=[+-/*%<>=&|])(?=\\d)"
-                            //separate string literals with double quotation marks
-                            + "|\\s(?=\")(?=.)(?=\")"
+                            // //if before is integer + whitespace, and after is operator
+                            // + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
+                            // //if before is operator + whitespace, and after is integer
+                            // + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
+                            // //if before is integer, and after is operator
+                            // + "|(?<=\\d)(?=[+-/*%<>=&|])"
+                            // //if before is operator, and after is integer
+                            // + "|(?<=[+-/*%<>=&|])(?=\\d)"
+                            // //separate string literals with double quotation marks
+                            // + "|\\s(?=\")(?=.)(?=\")"
                             //separate literals with commas
                             + "|(?=,\\s*)");
             
@@ -115,16 +115,16 @@ public class NewLexical {
                 //FLEXIBLE DATA TYPES
                 if (isToken(lexeme, "could")) { 
                     print(lexeme, "DATATYPE_LIMITER");
-                } 
-                else if(isToken(lexeme, "only")) { 
+                } else if(isToken(lexeme, "only")) { 
                     print(lexeme, "DATATYPE_LIMITER");
-                } 
+                
 
                 //ASSIGNMENT
-                else if(isToken(lexeme, "let")) { 
+                } else if(isToken(lexeme, "let")) { 
                     print(lexeme, "VARIABLE_INITIALIZER");
-                } 
-                else if(isToken(lexeme, "be")) { 
+                } else if(isToken(lexeme, "be")) { 
+                    print(lexeme, "ASSIGNMENT_KEYWORD");
+                } else if(isToken(lexeme, "is")) { 
                     print(lexeme, "ASSIGNMENT_KEYWORD");
                 } 
 
@@ -137,6 +137,7 @@ public class NewLexical {
                           isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
                 
+                //TYPEDEF
                 } else if(matches(lexeme, "Remember")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
                 } else if(matches(lexeme, "Shorten")) { 
@@ -145,10 +146,24 @@ public class NewLexical {
                     print(lexeme, "KEYWORD_CONVERTER");
                 } else if(matches(lexeme, "Represent")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
+                
+                //PREPOSITIONS
                 } else if(matches(lexeme, "to")) { 
                     print(lexeme, "PREPOSITION_TO");
                 } else if(matches(lexeme, "as")) { 
                     print(lexeme, "PREPOSITION_AS");
+                } else if(matches(lexeme, "from")) { 
+                    print(lexeme, "PREPOSITION_FROM");
+                } else if(matches(lexeme, "in")) { 
+                    print(lexeme, "PREPOSITION_IN");
+                } else if(matches(lexeme, "at")) { 
+                    print(lexeme, "PREPOSITION_AT");
+                
+                } else if(matches(lexeme, "one")) {
+                    print(lexeme, "QUANTIFIER");
+                } else if(matches(lexeme, "time")) {
+                    print(lexeme, "TIME_KEYWORD");
+                
 
                 //CONJUNCTIONS (IF-ELSE)
                 } else if (isToken(lexeme, "if")) { 
@@ -185,25 +200,14 @@ public class NewLexical {
                 //DELIMETERS
                 } else if (matches(lexeme,",")) {
                     print(lexeme, "ITEM_DELIMETER");
-                }else if (matches(lexeme,"\n")) {
-                } else if (matches(lexeme,"\\n")) {
+                } else if (matches(lexeme,"\n")) {
                     print(lexeme, "STATEMENT_DELIMETER");
-
-                //BUG: FLOAT LITERAL
+                
+                //LITERALS
                 } else if (matches(lexeme, "[0-9]+")) {
-                    StringBuilder wholeLexeme = new StringBuilder();
-                    wholeLexeme.append(lexeme);
-                    String next = sc.next();
-                    if (next == ".") {
-                        wholeLexeme.append(lexeme);
-                        if (next =="[0-9]+") {
-                            wholeLexeme.append(next);
-                            print(wholeLexeme.toString(), "FLOAT_LITERAL");
-                        }
-                    }
-                } 
-                else if (matches(lexeme, "[0-9]+")) {
                     print(lexeme, "INTEGER_LITERAL");
+                } else if (matches(lexeme, "[0-9]+\\.[0-9]+")) {
+                    print(lexeme, "FLOAT_LITERAL");
                 } else if (matches(lexeme, "true|false")) {
                     print(lexeme, "BOOLEAN_LITERAL");
                 } else if (lexeme.length() == 1) {
@@ -213,17 +217,19 @@ public class NewLexical {
                 } else if (lexeme.charAt(0)=='\"') {
                     String literal = matchNext(lexeme, "\s", "\"", sc);
                     print(literal, "STRING_LITERAL");
+
+                //COMMENTS
                 } else if (lexeme.contains("\\\\")) {
                     String comment = matchNext(lexeme, "\n", "\n", sc);
                     print(comment, "COMMENTS");
-                //ERROR_HANDLING
                 } else if (lexeme.contains("/*")) {
                     // String literal = matchNext(lexeme, "\n *", "*/", sc);
                     // print(literal, "MULTI-LINE COMMENT");
-                //ERROR_HANDLING
-                } else if (matches(lexeme,"[a-zA-Z][a-zA-Z0-9_]*")) {
+
+                //IDENTIFIER
+                } else if (matches(lexeme,"[a-zA-Z_\\p{Sc}][a-zA-Z0-9._]*")) {
                     print(lexeme, "IDENTIFIER");
-                } else if (matches(lexeme,"[0-9][a-zA-Z0-9_]*")) {
+                } else if (matches(lexeme,"[0-9][a-zA-Z0-9._]*")) {
                     print(lexeme, "INVALID_IDENTIFIER");
                 } else {
                     print(lexeme, "UNRECOGNIZED CHARACTERS");
