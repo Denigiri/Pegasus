@@ -21,6 +21,7 @@ public class NewLexical {
                  (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
     }
     
+    
     public static void main(String[] args) {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
@@ -60,7 +61,7 @@ public class NewLexical {
             // PrintStream fileOut = new PrintStream(new File(outputFilePath));
             // System.setOut(fileOut);
 
-            String code = "Each This 3+3 a was == + If < <= 1aaa \"hey hoy\"";
+            String code = "Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
             Scanner sc = new Scanner(code);
 
             // Print the table header
@@ -85,12 +86,6 @@ public class NewLexical {
             
             
 
-        
-        
-
-            while (sc.hasNext()) {
-
-
             while (sc.hasNext()) {
                 String lexeme = sc.next();
                 if (matches(lexeme, "\\d+")) {
@@ -98,11 +93,11 @@ public class NewLexical {
                 
                 //PRONOUNS (POINTERS)
                 //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
-                //} else if (isToken(lexeme, "this") ||
-                //           isToken(lexeme, "each") ||
-                //           isToken(lexeme, "was") ||
-                //           isToken(lexeme, "it")){
-                } else if (isToken(lexeme, "was")) {
+                } else if (isToken(lexeme, "this") ||
+                          isToken(lexeme, "each") ||
+                          isToken(lexeme, "was") ||
+                          isToken(lexeme, "it") ||
+                          isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
  
             
@@ -111,7 +106,7 @@ public class NewLexical {
                 } else if (isToken(lexeme, "if")) { 
                     print(lexeme, "CONJUNCTION_IF");
 
-                } else if (isToken(lexeme, "if")) {
+                } else if (isToken(lexeme, "then")) {
                     print(lexeme, "CONJUNCTION_THEN");  
 
                 } else if (isToken(lexeme,"else")) {
@@ -216,4 +211,3 @@ public class NewLexical {
     }
 // }
 
-}
