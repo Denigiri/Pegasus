@@ -13,6 +13,61 @@ public class NewLexical {
     public static boolean matches(String lexeme, String token_pattern) {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
     }
+
+    public static boolean matchRegex(String lexeme, String regex) {
+        int len = regex.length();
+        int lexemeIndex = 0;  // Track position in lexeme
+        List<Character> charactersToCheck = new ArrayList<>();  // Store characters within brackets
+        StringBuilder nonBracketedText = new StringBuilder();  // Store text outside brackets
+        boolean insideBrackets = false;
+    
+        for (int i = 0; i < len; i++) {
+            char ch = regex.charAt(i);
+    
+            if (ch == '[') {
+                insideBrackets = true;
+                // Check for matching characters within brackets
+                if (!nonBracketedText.isEmpty()) {
+                    if (!lexeme.startsWith(nonBracketedText.toString(), lexemeIndex)) {
+                        return false;  // Mismatch outside brackets
+                    }
+                    lexemeIndex += nonBracketedText.length();  // Advance lexeme position
+                }
+                nonBracketedText.setLength(0);  // Reset for next bracketed section
+            } else if (ch == ']') {
+                insideBrackets = false;
+            } else if (insideBrackets) {
+                charactersToCheck.add(ch);
+            } else {
+                nonBracketedText.append(ch);
+            }
+        }
+
+        // Check for matching characters within brackets
+        if (!charactersToCheck.isEmpty()) {
+            for (char c : lexeme.toCharArray()) {
+                if (charactersToCheck.contains(c)) {
+                    return true;  // Match found
+                }
+            }
+            charactersToCheck.clear();  // Reset for next bracketed section
+        }
+    
+        // Check for final substring outside brackets
+        if (!nonBracketedText.isEmpty()) {
+            if (!lexeme.startsWith(nonBracketedText.toString(), lexemeIndex)) {
+                return false;  // Mismatch outside brackets
+            }
+        }
+        
+        return true;  // All matches found
+    }
+
+    public static boolean matchString() {
+        return true;
+    }
+
+    
     public static void main(String[] args) {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
@@ -89,16 +144,16 @@ public class NewLexical {
  
             
                 //CONJUNCTIONS (IF-ELSE)
-                } else if (matches(lexeme,"[Ii]f")) {
+                } else if (matchRegex(lexeme,"[Ii]f")) {
                     print(lexeme, "CONJUNCTION_IF");
-                } else if (matches(lexeme,"[Tt]hen")) {
+                } else if (matchRegex(lexeme,"[Tt]hen")) {
                     print(lexeme, "CONJUNCTION_THEN");  
-                }else  if (matches(lexeme,"[Ee]lse")) {
+                }else  if (matchRegex(lexeme,"[Ee]lse")) {
                     print(lexeme, "CONJUNCTION_ELSE");
                 
                 //OPERATORS
                     //Arithmetic
-                    }else  if (lexeme.matches("[\\+\\-*/%]")) {
+                    }else  if (matchRegex(lexeme,"[\\+\\-*/%]")) {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
@@ -127,9 +182,25 @@ public class NewLexical {
                 }else if (matches(lexeme,"\\n")) {
                     print(lexeme, "STATEMENT_DELIMETER");
 
+                //SAMPLE-ONLY
+                } else if (matches(lexeme,"[a-zA-Z][a-zA-Z0-9_]*")) {
+                    print(lexeme, "IDENTIFIER");
+                } else if (matches(lexeme,"\"[a-zA-Z][a-zA-Z0-9_]*\s\"")) {
+                    print(lexeme, "STRING_DELIMITER"); 
+                } else if (matches(lexeme,"[a-z]*")) {
+                    print(lexeme, "LOWERCASE_LETTERS");
+                } else if (matches(lexeme,"[A-Z]*")) {
+                    print(lexeme, "UPPERCASE_LETTERS");
+                } else if (matches(lexeme,"[a-z]*")) {
+                    print(lexeme, "UPPERCASE_LETTERS");
+                } else if (matches(lexeme,"[0-9][a-zA-Z0-9_]*")) {
+                    print(lexeme, "INVALID_IDENTIFIER");
+                } else if (matches(lexeme,"\".*\"")) {
+                    print(lexeme, "STRING_LITERAL");
+
                 //ERROR_HANDLING
                 } else {
-                    print(lexeme, "INVALID_TOKEN");
+                    print(lexeme, "UNRECOGNIZED CHARACTERS");
                 }
             }
         
