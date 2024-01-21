@@ -1,6 +1,8 @@
 LEXEME       | TOKEN       
 ------------------------------
 if           | CONJUNCTION_IF
+if           | CONJUNCTION_IF
+             | INVALID_TOKEN
 IF           | IDENTIFIER  
 else         | CONJUNCTION_ELSE
 Else         | CONJUNCTION_ELSE
@@ -19,5 +21,3 @@ else         | CONJUNCTION_ELSE
 !=           | RELATIONAL_OPERATORS
 ==           | RELATIONAL_OPERATORS
 <>           | INVALID_TOKEN
-"asdjasdjaskl | INVALID_TOKEN
-asdasdasdsa" | INVALID_TOKEN
