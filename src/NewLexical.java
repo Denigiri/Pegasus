@@ -27,7 +27,7 @@ public class NewLexical {
             // Use Scanner to read from the file
             Scanner sc = new Scanner(fileInputStream);
 
-            // Create a PrintStream to capture the output
+            // Create a PrintStream to copy the output of printfunctions
             PrintStream originalOut = System.out;
             PrintStream fileOut = new PrintStream(new File(outputFilePath));
             System.setOut(fileOut);
@@ -51,6 +51,7 @@ public class NewLexical {
                             + "|\\s(?=\")(?=.)(?=\")"
                             //separate literals with commas
                             + "|(?=,\\s*)");
+                            
         
             while (sc.hasNext()) {
                 String token = sc.next();
@@ -58,44 +59,45 @@ public class NewLexical {
                     System.out.println(token + "\t\tInteger" );
                 
                 //PRONOUNS (POINTERS)
-                } else  if ("this".equalsIgnoreCase(token)||
-                            "each".equalsIgnoreCase(token)||
-                            "was".equalsIgnoreCase(token)||
-                            "it".equalsIgnoreCase(token)) {
-                        System.out.printf("%-12s | %-12s%n", token, "PRONOUNS"); 
+                } else if (token.equals("This")||token.equals("this")
+                        ||token.equals("Was")||token.equals("was")
+                        ||token.equals("Each")||token.equals("each")
+                        ||token.equals("It")||token.equals("it")) {
+                    System.out.printf("%-12s | %-12s%n", token, "PRONOUNS");
+ 
             
                 //CONJUNCTIONS (IF-ELSE)
-                } else if ("if".equalsIgnoreCase(token)) {
+                } else if (token.equals("If")||token.equals("if")) {
                     System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_IF");
-                } else if ("then".equalsIgnoreCase(token)) {
+                } else if (token.equals("Then")||token.equals("then")) {
                     System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_THEN");  
-                }else  if ("else".equalsIgnoreCase(token)) {
+                }else  if (token.equals("Else")||token.equals("else")) {
                     System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_ELSE");
                 
                 //OPERATORS
                     //Arithmetic
-                    }else  if ("+".equalsIgnoreCase(token)||
-                            "-".equalsIgnoreCase(token)||
-                            "/".equalsIgnoreCase(token)||
-                            "*".equalsIgnoreCase(token)||
-                            "%".equalsIgnoreCase(token)) {
+                    }else  if (token.equals("+")||
+                              token.equals("-")||
+                              token.equals("/")||
+                              token.equals("*")||
+                              token.equals("%")) {
                         System.out.printf("%-12s | %-12s%n", token, "ARITHMETIC_OPERATORS");
 
                     //Relational
-                    }else  if (">".equalsIgnoreCase(token)||
-                            "<".equalsIgnoreCase(token)||
-                            "==".equalsIgnoreCase(token)||
-                            "!=".equalsIgnoreCase(token)||
-                            "<=".equalsIgnoreCase(token)||
-                            ">=".equalsIgnoreCase(token)) {
+                    }else  if (token.equals("<")||
+                            token.equals(">")||
+                            token.equals("==")||
+                            token.equals("!=")||
+                            token.equals("<=")||
+                            token.equals(">=")) {
                         System.out.printf("%-12s | %-12s%n", token, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
-                    } else if ("&&".equalsIgnoreCase(token)) {
+                    } else if (token.equals("&&")) {
                         System.out.printf("%-12s | %-12s%n", token, "AND_OPERATOR");
-                    } else if ("||".equalsIgnoreCase(token)) {
+                    } else if (token.equals("||")) {
                         System.out.printf("%-12s | %-12s%n", token, "OR_OPERATOR");  
-                    }else  if ("!".equalsIgnoreCase(token)) {
+                    }else  if (token.equals("!")) {
                         System.out.printf("%-12s | %-12s%n", token, "NOT_OPERATOR");
 
                 //SAMPLE-ONLY
@@ -124,7 +126,7 @@ public class NewLexical {
 
         // Reset the standard output
         System.setOut(originalOut);
-        System.out.println("Output saved to: " + outputFilePath);
+        System.out.println("\nOutput saved to: " + outputFilePath);
 
         }//ERROR HANDLING FOR FILE
         catch (FileNotFoundException e) {
