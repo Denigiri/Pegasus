@@ -138,32 +138,65 @@ public class NewLexical {
                     print(lexeme, "POINTERS");
                 
                 //TYPEDEF
-                } else if(matches(lexeme, "Remember")) { 
+                } else if(isToken(lexeme, "remember")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Shorten")) { 
+                } else if(isToken(lexeme, "shorten")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Represent")) { 
-                    print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Represent")) { 
+                } else if(isToken(lexeme, "represent")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
                 
                 //PREPOSITIONS
-                } else if(matches(lexeme, "to")) { 
+                } else if(isToken(lexeme, "to")) { 
                     print(lexeme, "PREPOSITION_TO");
-                } else if(matches(lexeme, "as")) { 
+                } else if(isToken(lexeme, "as")) { 
                     print(lexeme, "PREPOSITION_AS");
-                } else if(matches(lexeme, "from")) { 
+                } else if(isToken(lexeme, "from")) { 
                     print(lexeme, "PREPOSITION_FROM");
-                } else if(matches(lexeme, "in")) { 
+                } else if(isToken(lexeme, "in")) { 
                     print(lexeme, "PREPOSITION_IN");
-                } else if(matches(lexeme, "at")) { 
+                } else if(isToken(lexeme, "at")) { 
                     print(lexeme, "PREPOSITION_AT");
-                
-                } else if(matches(lexeme, "one")) {
+                } else if(isToken(lexeme, "after")) { 
+                    print(lexeme, "PREPOSITION_AFTER");
+                } else if(isToken(lexeme, "one")) {
                     print(lexeme, "QUANTIFIER");
-                } else if(matches(lexeme, "time")) {
+                } else if(isToken(lexeme, "time")) {
                     print(lexeme, "TIME_KEYWORD");
                 
+                //ADJECTIVES (Data Type & Variable Modifiers)
+                } else if (isToken(lexeme, "always")) {
+                    print(lexeme, "CONSTANT");
+                //NUMERICAL
+                } else if (isToken(lexeme, "discrete")) {
+                    print(lexeme, "DISCRETE");
+                } else if (isToken(lexeme, "continuous")) {
+                    print(lexeme, "CONTINUOUS");
+                //CATEGORICAL
+                } else if (isToken(lexeme, "order")) {
+                    print(lexeme, "ORDINAL");
+                } else if (isToken(lexeme, "boolean")) {
+                    print(lexeme, "BINARY");
+
+                //TASKS (Functions)
+                } else if (isToken(lexeme, "show")) {
+                    print(lexeme, "PRINT");
+                } else if (isToken(lexeme, "ask")) {
+                    print(lexeme, "SCAN");
+                } else if (isToken(lexeme, "read")) {
+                    print(lexeme, "READ");
+                } else if (isToken(lexeme, "write")) {
+                    print(lexeme, "WRITE");
+                } else if (isToken(lexeme, "open")) {
+                    print(lexeme, "OPEN");
+                } else if (isToken(lexeme, "close")) {
+                    print(lexeme, "CLOSE");
+                } else if (isToken(lexeme, "change")) {
+                    print(lexeme, "CHANGE");
+                } else if (isToken(lexeme, "spell")) {
+                    print(lexeme, "SPELL");
+                } else if (isToken(lexeme, "count")) {
+                    print(lexeme, "COUNT");
+
 
                 //CONJUNCTIONS (IF-ELSE)
                 } else if (isToken(lexeme, "if")) { 
@@ -192,7 +225,7 @@ public class NewLexical {
                     //CONDITIONAL
                     } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
-                    } else if (matches(lexeme,"||")) {
+                    } else if (lexeme.equals("||")) {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
@@ -214,9 +247,9 @@ public class NewLexical {
                     print(lexeme, "CHARACTER_LITERAL");
                 }  else if (isToken(lexeme, "null")) {
                     print(lexeme, "NULL_LITERAL");
-                } else if (lexeme.charAt(0)=='\"') {
-                    String literal = matchNext(lexeme, "\s", "\"", sc);
-                    print(literal, "STRING_LITERAL");
+                //} else if (lexeme.charAt(0)=='\"') {
+                //    String literal = matchNext(lexeme, "\s", "\"", sc);
+                //    print(literal, "STRING_LITERAL");
 
                 //COMMENTS
                 } else if (lexeme.contains("\\\\")) {
