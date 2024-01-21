@@ -13,6 +13,13 @@ public class NewLexical {
     public static boolean matches(String lexeme, String token_pattern) {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
     }
+
+    public static boolean isToken(String lexeme, String token){
+        return ( lexeme.toLowerCase().equals(token) && 
+                 lexeme.charAt(0) == token.charAt(0) && 
+                 (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
+    }
+    
     public static void main(String[] args) {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
@@ -71,14 +78,9 @@ public class NewLexical {
                             + "|\\s(?=\")(?=.)(?=\")"
                             //separate literals with commas
                             + "|(?=,\\s*)");
-            
-        String code = "Each This 3 a was == + If < <=";
-        // sc = new Scanner(code);
 
-        
-        
 
-            while (sc.hasNext(code)) {
+            while (sc.hasNext()) {
                 String lexeme = sc.next();
                 if (matches(lexeme, "\\d+")) {
                     print(lexeme, "INTEGER");
@@ -89,20 +91,29 @@ public class NewLexical {
  
             
                 //CONJUNCTIONS (IF-ELSE)
-                } else if (matches(lexeme,"[Ii]f")) {
-                    print(lexeme, "CONJUNCTION_IF");
+                //} else if (matches(lexeme,"[Ii]f")) {
+                } else if (isToken(lexeme, "if"))
+                { print(lexeme, "CONJUNCTION_IF");
+
                 } else if (matches(lexeme,"[Tt]hen")) {
                     print(lexeme, "CONJUNCTION_THEN");  
-                }else  if (matches(lexeme,"[Ee]lse")) {
+                } else  if (matches(lexeme,"[Ee]lse")) {
                     print(lexeme, "CONJUNCTION_ELSE");
                 
+                //UNION
+                } else if ( (lexeme.toLowerCase().equals("union")) && 
+                (lexeme.charAt(0)== 'u') && 
+                (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase()))
+                ) { print(lexeme, "UNION");
+
+
                 //OPERATORS
                     //Arithmetic
-                    }else  if (lexeme.matches("[\\+\\-*/%]")) {
+                    } else  if (lexeme.matches("[\\+\\-*/%]")) {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
-                    }else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
+                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
                         print(lexeme, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
@@ -110,7 +121,7 @@ public class NewLexical {
                         print(lexeme, "AND_OPERATOR");
                     } else if (matches(lexeme,"||")) {
                         print(lexeme, "OR_OPERATOR");  
-                    }else  if (matches(lexeme,"!")) {
+                    } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
 
                 //SAMPLE-ONLY
@@ -124,7 +135,7 @@ public class NewLexical {
                 //DELIMETERS
                 } else if (matches(lexeme,",")) {
                     print(lexeme, "ITEM_DELIMETER");
-                }else if (matches(lexeme,"\\n")) {
+                } else if (matches(lexeme,"\\n")) {
                     print(lexeme, "STATEMENT_DELIMETER");
 
                 //ERROR_HANDLING
