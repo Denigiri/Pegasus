@@ -8,7 +8,7 @@ import javax.swing.JFileChooser;
 
 public class NewLexical {
     public static void print(String lexeme, String token) {
-        System.out.printf("%-12s | %-12s\n", lexeme, token);
+        System.out.printf("%-20s | %-20s\n", token, lexeme);
     }
 
     public static boolean matches(String lexeme, String token_pattern) {
@@ -19,6 +19,25 @@ public class NewLexical {
         return   (lexeme.toLowerCase().equals(token) && 
                  Character.toLowerCase(lexeme.charAt(0)) == Character.toLowerCase(token.charAt(0)) && 
                  (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
+    }
+
+    public static String matchNext(String lexeme, String separators, String end_delimiter, Scanner sc) {
+        StringBuilder wholeLexeme = new StringBuilder();
+        wholeLexeme.append(lexeme);
+        
+        sc.useDelimiter("");
+        while (sc.hasNext()) {
+            String next = sc.next();
+            if (next.contains(String.valueOf(end_delimiter))) {
+                // Found closing quote
+                wholeLexeme.append(next);
+                break;
+            } else {
+                sc.useDelimiter(separators);
+                wholeLexeme.append(next);
+            }
+        }
+        return wholeLexeme.toString();
     }
     
     
@@ -60,6 +79,9 @@ public class NewLexical {
             // PrintStream originalOut = System.out;
             // PrintStream fileOut = new PrintStream(new File(outputFilePath));
             // System.setOut(fileOut);
+            /*
+             * 
+             */
 
             String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
             String code2 = "Represent Principles_of_Programming_language as PPL";
@@ -108,8 +130,7 @@ public class NewLexical {
 
                 
                 //PRONOUNS (POINTERS)
-                //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
-                } else if (isToken(lexeme, "this") ||
+                else if(isToken(lexeme, "this") ||
                           isToken(lexeme, "each") ||
                           isToken(lexeme, "was") ||
                           isToken(lexeme, "it") ||
@@ -130,7 +151,6 @@ public class NewLexical {
                     print(lexeme, "PREPOSITION_AS");
 
                 //CONJUNCTIONS (IF-ELSE)
-                //} else if (matches(lexeme,"[Ii]f")) {
                 } else if (isToken(lexeme, "if")) { 
                     print(lexeme, "CONJUNCTION_IF");
 
@@ -144,47 +164,6 @@ public class NewLexical {
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
 
-                //Prepostion
-                } else if (isToken(lexeme, "after") ||
-                           isToken(lexeme, "from") ||
-                           isToken(lexeme, "to") ||
-                           isToken(lexeme, "in")){
-                print(lexeme, "PREPOSITIONS");
-
-                //ADJECTIVES (Data Type & Variable Modifiers)
-                } else if (isToken(lexeme, "always")) {
-                    print(lexeme, "CONSTANT");
-                    //NUMERICAL
-                } else if (isToken(lexeme, "discrete")) {
-                    print(lexeme, "DISCRETE");
-                } else if (isToken(lexeme, "continuous")) {
-                    print(lexeme, "CONTINUOUS");
-                    //CATEGORICAL
-                } else if (isToken(lexeme, "order")) {
-                    print(lexeme, "ORDINAL");
-                } else if (isToken(lexeme, "boolean")) {
-                    print(lexeme, "BINARY");
-                
-                //TASKS (Functions)
-                } else if (isToken(lexeme, "show")) {
-                    print(lexeme, "PRINT");
-                } else if (isToken(lexeme, "ask")) {
-                    print(lexeme, "SCAN");
-                } else if (isToken(lexeme, "read")) {
-                    print(lexeme, "READ");
-                } else if (isToken(lexeme, "write")) {
-                    print(lexeme, "WRITE");
-                } else if (isToken(lexeme, "open")) {
-                    print(lexeme, "OPEN");
-                } else if (isToken(lexeme, "close")) {
-                    print(lexeme, "CLOSE");
-                } else if (isToken(lexeme, "change")) {
-                    print(lexeme, "CHANGE");
-                } else if (isToken(lexeme, "spell")) {
-                    print(lexeme, "SPELL");
-                } else if (isToken(lexeme, "count")) {
-                    print(lexeme, "COUNT");
-                
 
                 //OPERATORS
                     //Arithmetic
