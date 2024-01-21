@@ -2,28 +2,35 @@ import java.util.Scanner;
 
 public class NewLexical {
     public static void main(String[] args) {
-        String code = "int num = 2&&3.123,2 < 4 + \"hey\", \"hey world\" \"4+4\"";
+        String code = "int num<=num 2 && false 3.2+2,2<4 + \"hey\", \"hey world\"";
         String code2 = "The A An Score could only be < 100\n"
-                        + "A Score could only be \"Very Good\", \"Good\", \"Pass\", \"4 + 4\" ";
+                        + "A Score could only be \"Very Good\", \"Good\", \"Pass\"";
 
         Scanner sc = new Scanner(code);
 
+            String numeric_literal = "\\d+(\\.\\d+)?";
+
             //split code by...
             sc.useDelimiter(//whitespace between keywords
-                            "\\s" 
-                            //if before is integer + whitespace, and after is operator
-                            + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
-                            //if before is operator + whitespace, and after is integer
-                            + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
-                            //if before is integer, and after is operator
-                            + "|(?<=\\d)(?=[+-/*%<>=&|])"
-                            //if before is operator, and after is integer
-                            + "|(?<=[+-/*%<>=&|])(?=\\d)"
+                            "\\s"
+                            + "|(?<!\")(?<!\\p{Alpha})\\s"
+                            //BETWEEN EXPRESSIONS
+                                //if before is word + whitespace, and after is operator
+                                + "|(?<=(\\w+)\\s*)(?=[=+-/*%<>&|])" 
+                                //if before is operator + whitespace, and after is word
+                                + "|(?<=[=+-/*%<>=&|]\\s)(?=(\\w+))"
+                                //if before is word, and after is operator
+                                + "|(?<=(\\w+))(?=[=+-/*%<>=&|])"
+                                //if before is operator, and after is word
+                                + "|(?<=[=+-/*%<>=&|])(?=(\\w+))"
+
                             //separate string literals with double quotation marks
-                            + "|\\s(?=\")(?=.)(?=\")"
+                            + "|\\s(?=\")(?=\")"
                             //separate literals with commas
-                            + "|(?=,\\s*)");
-        
+                            + "|(?=,\\s*)|(?<=,)");
+            
+            sc.useDelimiter("\s|\t|\n|(?=,\\s*)|(?<=,)");
+
         while (sc.hasNext()) {
             String token = sc.next();
             System.out.println(token);
