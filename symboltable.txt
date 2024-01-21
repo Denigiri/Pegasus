@@ -1,0 +1,16 @@
+LEXEME       | TOKEN       
+------------------------------
+EacH         | PRONOUNS    
+ThIS         | PRONOUNS    
+If           | CONJUNCTION_IF
+ELSe         | CONJUNCTION_ELSE
++            | ARITHMETIC_OPERATORS
+*            | ARITHMETIC_OPERATORS
+/            | ARITHMETIC_OPERATORS
+%            | ARITHMETIC_OPERATORS
+<            | RELATIONAL_OPERATORS
+>            | RELATIONAL_OPERATORS
+!            | NOT_OPERATOR
+!=           | RELATIONAL_OPERATORS
+==           | RELATIONAL_OPERATORS
+<>           | INVALID_TOKEN

@@ -1,13 +1,40 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class NewLexical {
     public static void main(String[] args) {
-        System.out.println("LEXEME" + "\t\tTOKEN\n" );
-        String code = "int num = 2&&3.123,2 < 4 + \"hey\", \"hey world\" \"4+4\"";
-        String code2 = "The A An Score could only be < 100\n"
-                        + "A Score could only be \"Very Good\", \"Good\", \"Pass\", \"4 + 4\" ";
-        String code3 = "this WAS iT else if then + - < > <= * && || ! +++ <>!\nsds";
-        Scanner sc = new Scanner(code3);
+
+        // Get the current directory
+        String currentDirectory = System.getProperty("user.dir");
+
+        // Create file paths (For input and Output)
+        String filePath = currentDirectory + File.separator + "test.pgs";//CHANGE THE FILE NAME TO THE FILE YOU WANT TO SCAN
+        String outputFilePath = currentDirectory + File.separator + "symboltable.txt";
+
+        //Check if the file has the appropriate extnesion
+         if (!filePath.endsWith(".pgs")) {
+            System.out.println("Invalid file extension. Please provide a file with .pgs extension.");
+            return;
+        }
+
+        try {
+            // Create a FileInputStream for the specified file
+            FileInputStream fileInputStream = new FileInputStream(new File(filePath));
+
+            // Use Scanner to read from the file
+            Scanner sc = new Scanner(fileInputStream);
+
+            // Create a PrintStream to capture the output
+            PrintStream originalOut = System.out;
+            PrintStream fileOut = new PrintStream(new File(outputFilePath));
+            System.setOut(fileOut);
+
+            // Print the table header
+            System.out.printf("%-12s | %-12s%n", "LEXEME", "TOKEN");
+            System.out.println("------------------------------");
 
             //split code by...
             sc.useDelimiter(//whitespace between keywords
@@ -25,87 +52,85 @@ public class NewLexical {
                             //separate literals with commas
                             + "|(?=,\\s*)");
         
-        while (sc.hasNext()) {
-            String token = sc.next();
-            if (token.matches("\\d+")) {
-                System.out.println(token + "\t\tInteger" );
+            while (sc.hasNext()) {
+                String token = sc.next();
+                if (token.matches("\\d+")) {
+                    System.out.println(token + "\t\tInteger" );
+                
+                //PRONOUNS (POINTERS)
+                } else  if ("this".equalsIgnoreCase(token)||
+                            "each".equalsIgnoreCase(token)||
+                            "was".equalsIgnoreCase(token)||
+                            "it".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "PRONOUNS"); 
             
-            //PRONOUNS (POINTERS)
-            } else  if ("this".equalsIgnoreCase(token)||
-                        "each".equalsIgnoreCase(token)||
-                        "was".equalsIgnoreCase(token)||
-                        "it".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tPRONOUNS");
-           
-            //CONJUNCTIONS (IF-ELSE)
-            } else if ("if".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tCONJUNCTION_IF");
-            } else if ("then".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tCONJUNCTION_THEN");  
-            }else  if ("else".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tCONJUNCTION_ELSE");
-            
-            //OPERATORS
-                //Arithmetic
-                }else  if ("+".equalsIgnoreCase(token)||
-                        "-".equalsIgnoreCase(token)||
-                        "/".equalsIgnoreCase(token)||
-                        "*".equalsIgnoreCase(token)||
-                        "%".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tARITHMETIC_OPERATORS");
+                //CONJUNCTIONS (IF-ELSE)
+                } else if ("if".equalsIgnoreCase(token)) {
+                    System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_IF");
+                } else if ("then".equalsIgnoreCase(token)) {
+                    System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_THEN");  
+                }else  if ("else".equalsIgnoreCase(token)) {
+                    System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_ELSE");
+                
+                //OPERATORS
+                    //Arithmetic
+                    }else  if ("+".equalsIgnoreCase(token)||
+                            "-".equalsIgnoreCase(token)||
+                            "/".equalsIgnoreCase(token)||
+                            "*".equalsIgnoreCase(token)||
+                            "%".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "ARITHMETIC_OPERATORS");
 
-                //Relational
-                }else  if (">".equalsIgnoreCase(token)||
-                        "<".equalsIgnoreCase(token)||
-                        "==".equalsIgnoreCase(token)||
-                        "!=".equalsIgnoreCase(token)||
-                        "<=".equalsIgnoreCase(token)||
-                        ">=".equalsIgnoreCase(token)) {
-                System.out.println(token + "\t\tRELATIONAL_OPERATORS");
+                    //Relational
+                    }else  if (">".equalsIgnoreCase(token)||
+                            "<".equalsIgnoreCase(token)||
+                            "==".equalsIgnoreCase(token)||
+                            "!=".equalsIgnoreCase(token)||
+                            "<=".equalsIgnoreCase(token)||
+                            ">=".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "RELATIONAL_OPERATORS");
 
-                //CONDITIONAL
-                } else if ("&&".equalsIgnoreCase(token)) {
-                    System.out.println(token + "\t\tAND_OPERATOR");
-                } else if ("||".equalsIgnoreCase(token)) {
-                    System.out.println(token + "\t\tOR_OPERATOR");  
-                }else  if ("!".equalsIgnoreCase(token)) {
-                    System.out.println(token + "\t\tNOT_OPERATOR");
+                    //CONDITIONAL
+                    } else if ("&&".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "AND_OPERATOR");
+                    } else if ("||".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "OR_OPERATOR");  
+                    }else  if ("!".equalsIgnoreCase(token)) {
+                        System.out.printf("%-12s | %-12s%n", token, "NOT_OPERATOR");
 
-            //SAMPLE-ONLY
-            } else if (token.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
-                System.out.println(token +  "\t\tIDENTIFIER");
-            } else if (token.matches("[+-/*%<>=&|]")) {
-                System.out.println(token +  "\t\tOPERATOR");
-            } else if (token.matches("\".*\"")) {
-                System.out.println(token +  "\t\tSTRING_LITERAL");
+                //SAMPLE-ONLY
+                } else if (token.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
+                    System.out.printf("%-12s | %-12s%n", token, "IDENTIFIER");
+                } else if (token.matches("[+-/*%<>=&|]")) {
+                    System.out.printf("%-12s | %-12s%n", token, "OPERATOR");
+                } else if (token.matches("\".*\"")) {
+                    System.out.printf("%-12s | %-12s%n", token, "STRING_LITERAL");
 
-            //DELIMETERS
-            } else if (token.equals(",")) {
-                System.out.println(token +  "\t\tITEM_DELIMETER");
-            }else if (token.equals("\\n")) {
-                System.out.println(token +  "\t\tSTATEMENT_DELIMETER");
+                //DELIMETERS
+                } else if (token.equals(",")) {
+                    System.out.printf("%-12s | %-12s%n", token, "ITEM_DELIMETER");
+                }else if (token.equals("\\n")) {
+                    System.out.printf("%-12s | %-12s%n", token, "STATEMENT_DELIMETER");
 
-            //ERROR_HANDLING
-            } else {
-                System.out.println(token +  "\t\tINVALID_TOKEN");
+                //ERROR_HANDLING
+                } else {
+                    System.out.printf("%-12s | %-12s%n", token, "INVALID_TOKEN");
+                }
             }
-        }
-
-
-        // while (sc.hasNext()) {
-        //     if (sc.hasNextInt()) {
-        //         int value = sc.nextInt();
-        //         System.out.println("Integer: " + value);
-        //     } else if (sc.hasNext("[a-zA-Z][a-zA-Z0-9_]*")) {
-        //         String identifier = sc.next();
-        //         System.out.println("Identifier: " + identifier);
-        //     } else {
-        //         String symbol = sc.next();
-        //         System.out.println("Symbol: " + symbol);
-        //     }
-        // }
-
-        sc.close();
         
+        //Close Scanner nd InputStream
+        sc.close();
+        fileInputStream.close();
+
+        // Reset the standard output
+        System.setOut(originalOut);
+        System.out.println("Output saved to: " + outputFilePath);
+
+        }//ERROR HANDLING FOR FILE
+        catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
