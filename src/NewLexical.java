@@ -60,12 +60,12 @@ public class NewLexical {
                             + "|(?=,\\s*)");
             
         String code = "Each This 3 a was == + If < <=";
-        sc = new Scanner(code);
+        // sc = new Scanner(code);
 
         
         
 
-            while (sc.hasNext()) {
+            while (sc.hasNext(code)) {
                 String lexeme = sc.next();
                 if (matches(lexeme, "\\d+")) {
                     print(lexeme, "INTEGER");
