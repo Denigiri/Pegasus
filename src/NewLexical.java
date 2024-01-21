@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
+
 public class NewLexical {
     public static void print(String lexeme, String token) {
         System.out.printf("%-12s | %-12s\n", lexeme, token);
@@ -15,8 +16,8 @@ public class NewLexical {
     }
 
     public static boolean isToken(String lexeme, String token){
-        return ( lexeme.toLowerCase().equals(token) && 
-                 lexeme.charAt(0) == token.charAt(0) && 
+        return   (lexeme.toLowerCase().equals(token) && 
+                 Character.toLowerCase(lexeme.charAt(0)) == Character.toLowerCase(token.charAt(0)) && 
                  (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
     }
     
@@ -86,30 +87,34 @@ public class NewLexical {
                     print(lexeme, "INTEGER");
                 
                 //PRONOUNS (POINTERS)
-                } else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
+                //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
+                //} else if (isToken(lexeme, "this") ||
+                //           isToken(lexeme, "each") ||
+                //           isToken(lexeme, "was") ||
+                //           isToken(lexeme, "it")){
+                } else if (isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
  
             
                 //CONJUNCTIONS (IF-ELSE)
                 //} else if (matches(lexeme,"[Ii]f")) {
-                } else if (isToken(lexeme, "if"))
-                { print(lexeme, "CONJUNCTION_IF");
+                } else if (isToken(lexeme, "if")) { 
+                    print(lexeme, "CONJUNCTION_IF");
 
-                } else if (matches(lexeme,"[Tt]hen")) {
+                } else if (isToken(lexeme, "if")) {
                     print(lexeme, "CONJUNCTION_THEN");  
-                } else  if (matches(lexeme,"[Ee]lse")) {
+
+                } else if (isToken(lexeme,"else")) {
                     print(lexeme, "CONJUNCTION_ELSE");
                 
                 //UNION
-                } else if ( (lexeme.toLowerCase().equals("union")) && 
-                (lexeme.charAt(0)== 'u') && 
-                (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase()))
-                ) { print(lexeme, "UNION");
+                } else if (isToken(lexeme, "union")) {
+                    print(lexeme, "UNION");
 
 
                 //OPERATORS
                     //Arithmetic
-                    } else  if (lexeme.matches("[\\+\\-*/%]")) {
+                    } else  if ("+-*/%".contains(lexeme)) {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
@@ -117,7 +122,7 @@ public class NewLexical {
                         print(lexeme, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
-                    } else if (matches(lexeme,"&&")) {
+                    } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
                     } else if (matches(lexeme,"||")) {
                         print(lexeme, "OR_OPERATOR");  
