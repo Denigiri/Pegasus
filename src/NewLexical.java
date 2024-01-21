@@ -6,6 +6,20 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 public class NewLexical {
+    public static void print(String lexeme, String token) {
+        System.out.printf("%-12s | %-12s\n", lexeme, token);
+    }
+
+    public static boolean matches(String lexeme, String token_pattern) {
+        return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
+    }
+
+    public static boolean isToken(String lexeme, String token){
+        return ( lexeme.toLowerCase().equals(token) && 
+                 lexeme.charAt(0) == token.charAt(0) && 
+                 (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
+    }
+    
     public static void main(String[] args) {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
@@ -45,93 +59,90 @@ public class NewLexical {
                 PrintStream fileOut = new PrintStream(new File(outputFilePath));
                 System.setOut(fileOut);
 
-                // Print the table header
-                System.out.printf("%-12s | %-12s%n", "LEXEME", "TOKEN");
-                System.out.println("------------------------------");
+            // Print the table header
+            print("LEXEME", "TOKEN");
+            System.out.println("------------------------------");
 
-                //split code by...
-                sc.useDelimiter(//whitespace between keywords
-                                "\\s" 
-                                //if before is integer + whitespace, and after is operator
-                                + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
-                                //if before is operator + whitespace, and after is integer
-                                + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
-                                //if before is integer, and after is operator
-                                + "|(?<=\\d)(?=[+-/*%<>=&|])"
-                                //if before is operator, and after is integer
-                                + "|(?<=[+-/*%<>=&|])(?=\\d)"
-                                //separate string literals with double quotation marks
-                                + "|\\s(?=\")(?=.)(?=\")"
-                                //separate literals with commas
-                                + "|(?=,\\s*)");
-                                
-            
-                while (sc.hasNext()) {
-                    String token = sc.next();
-                    if (token.matches("\\d+")) {
-                        System.out.println(token + "\t\tInteger" );
-                    
-                    //PRONOUNS (POINTERS)
-                    } else if (token.equals("This")||token.equals("this")
-                            ||token.equals("Was")||token.equals("was")
-                            ||token.equals("Each")||token.equals("each")
-                            ||token.equals("It")||token.equals("it")) {
-                        System.out.printf("%-12s | %-12s%n", token, "PRONOUNS");
-    
+            //split code by...
+            sc.useDelimiter(//whitespace between keywords
+                            "\\s" 
+                            //if before is integer + whitespace, and after is operator
+                            + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
+                            //if before is operator + whitespace, and after is integer
+                            + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
+                            //if before is integer, and after is operator
+                            + "|(?<=\\d)(?=[+-/*%<>=&|])"
+                            //if before is operator, and after is integer
+                            + "|(?<=[+-/*%<>=&|])(?=\\d)"
+                            //separate string literals with double quotation marks
+                            + "|\\s(?=\")(?=.)(?=\")"
+                            //separate literals with commas
+                            + "|(?=,\\s*)");
+
+
+            while (sc.hasNext()) {
+                String lexeme = sc.next();
+                if (matches(lexeme, "\\d+")) {
+                    print(lexeme, "INTEGER");
                 
-                    //CONJUNCTIONS (IF-ELSE)
-                    } else if (token.equals("If")||token.equals("if")) {
-                        System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_IF");
-                    } else if (token.equals("Then")||token.equals("then")) {
-                        System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_THEN");  
-                    }else  if (token.equals("Else")||token.equals("else")) {
-                        System.out.printf("%-12s | %-12s%n", token, "CONJUNCTION_ELSE");
-                    
-                    //OPERATORS
-                        //Arithmetic
-                        }else  if (token.equals("+")||
-                                token.equals("-")||
-                                token.equals("/")||
-                                token.equals("*")||
-                                token.equals("%")) {
-                            System.out.printf("%-12s | %-12s%n", token, "ARITHMETIC_OPERATORS");
+                //PRONOUNS (POINTERS)
+                } else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
+                    print(lexeme, "POINTERS");
+ 
+            
+                //CONJUNCTIONS (IF-ELSE)
+                //} else if (matches(lexeme,"[Ii]f")) {
+                } else if (isToken(lexeme, "if"))
+                { print(lexeme, "CONJUNCTION_IF");
 
-                        //Relational
-                        }else  if (token.equals("<")||
-                                token.equals(">")||
-                                token.equals("==")||
-                                token.equals("!=")||
-                                token.equals("<=")||
-                                token.equals(">=")) {
-                            System.out.printf("%-12s | %-12s%n", token, "RELATIONAL_OPERATORS");
+                } else if (matches(lexeme,"[Tt]hen")) {
+                    print(lexeme, "CONJUNCTION_THEN");  
+                } else  if (matches(lexeme,"[Ee]lse")) {
+                    print(lexeme, "CONJUNCTION_ELSE");
+                
+                //UNION
+                } else if ( (lexeme.toLowerCase().equals("union")) && 
+                (lexeme.charAt(0)== 'u') && 
+                (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase()))
+                ) { print(lexeme, "UNION");
 
-                        //CONDITIONAL
-                        } else if (token.equals("&&")) {
-                            System.out.printf("%-12s | %-12s%n", token, "AND_OPERATOR");
-                        } else if (token.equals("||")) {
-                            System.out.printf("%-12s | %-12s%n", token, "OR_OPERATOR");  
-                        }else  if (token.equals("!")) {
-                            System.out.printf("%-12s | %-12s%n", token, "NOT_OPERATOR");
 
-                    //SAMPLE-ONLY
-                    } else if (token.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
-                        System.out.printf("%-12s | %-12s%n", token, "IDENTIFIER");
-                    } else if (token.matches("[+-/*%<>=&|]")) {
-                        System.out.printf("%-12s | %-12s%n", token, "OPERATOR");
-                    } else if (token.matches("\".*\"")) {
-                        System.out.printf("%-12s | %-12s%n", token, "STRING_LITERAL");
+                //OPERATORS
+                    //Arithmetic
+                    } else  if (lexeme.matches("[\\+\\-*/%]")) {
+                        print(lexeme, "ARITHMETIC_OPERATORS");
 
-                    //DELIMETERS
-                    } else if (token.equals(",")) {
-                        System.out.printf("%-12s | %-12s%n", token, "ITEM_DELIMETER");
-                    }else if (token.equals("\n")) {
-                        System.out.printf("%-12s | %-12s%n", token, "STATEMENT_DELIMETER");
+                    //Relational
+                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
+                        print(lexeme, "RELATIONAL_OPERATORS");
 
-                    //ERROR_HANDLING
-                    } else {
-                        System.out.printf("%-12s | %-12s%n", token, "INVALID_TOKEN");
-                    }
+                    //CONDITIONAL
+                    } else if (matches(lexeme,"&&")) {
+                        print(lexeme, "AND_OPERATOR");
+                    } else if (matches(lexeme,"||")) {
+                        print(lexeme, "OR_OPERATOR");  
+                    } else  if (matches(lexeme,"!")) {
+                        print(lexeme, "NOT_OPERATOR");
+
+                //SAMPLE-ONLY
+                } else if (lexeme.matches("[a-zA-Z][a-zA-Z0-9_]*")) {
+                    print(lexeme, "IDENTIFIER");
+                } else if (lexeme.matches("[+-/*%<>=&|]")) {
+                    print(lexeme, "OPERATOR");
+                } else if (lexeme.matches("\".*\"")) {
+                    print(lexeme, "STRING_LITERAL");
+
+                //DELIMETERS
+                } else if (matches(lexeme,",")) {
+                    print(lexeme, "ITEM_DELIMETER");
+                } else if (matches(lexeme,"\\n")) {
+                    print(lexeme, "STATEMENT_DELIMETER");
+
+                //ERROR_HANDLING
+                } else {
+                    print(lexeme, "INVALID_TOKEN");
                 }
+            }
         
             //Close Scanner nd InputStream
             sc.close();
