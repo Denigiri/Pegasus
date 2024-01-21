@@ -100,7 +100,21 @@ public class NewLexical {
                           isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
  
-            
+                //ADJECTIVES (Data Type & Variable Modifiers)
+
+                } else if (isToken(lexeme, "always")) {
+                    print(lexeme, "ALWAYS");
+                //Numerical
+                } else if (isToken(lexeme, "discrete")) {
+                    print(lexeme, "DISCRETE");
+                } else if (isToken(lexeme, "continuous")) {
+                    print(lexeme, "CONTINUOUS");
+                //Categorical
+                } else if (isToken(lexeme, "order")) {
+                    print(lexeme, "ORDINAL");
+                } else if (isToken(lexeme, "boolean")) {
+                    print(lexeme, "BINARY");
+                    
                 //CONJUNCTIONS (IF-ELSE)
                 //} else if (matches(lexeme,"[Ii]f")) {
                 } else if (isToken(lexeme, "if")) { 
@@ -116,20 +130,61 @@ public class NewLexical {
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
 
+                //Prepostion
+                } else if (isToken(lexeme, "after") ||
+                           isToken(lexeme, "from") ||
+                           isToken(lexeme, "to") ||
+                           isToken(lexeme, "in")){
+                print(lexeme, "PREPOSITIONS");
+
+                //ADJECTIVES (Data Type & Variable Modifiers)
+                } else if (isToken(lexeme, "always")) {
+                    print(lexeme, "CONSTANT");
+                    //NUMERICAL
+                } else if (isToken(lexeme, "discrete")) {
+                    print(lexeme, "DISCRETE");
+                } else if (isToken(lexeme, "continuous")) {
+                    print(lexeme, "CONTINUOUS");
+                    //CATEGORICAL
+                } else if (isToken(lexeme, "order")) {
+                    print(lexeme, "ORDINAL");
+                } else if (isToken(lexeme, "boolean")) {
+                    print(lexeme, "BINARY");
+                
+                //TASKS (Functions)
+                } else if (isToken(lexeme, "show")) {
+                    print(lexeme, "PRINT");
+                } else if (isToken(lexeme, "ask")) {
+                    print(lexeme, "SCAN");
+                } else if (isToken(lexeme, "read")) {
+                    print(lexeme, "READ");
+                } else if (isToken(lexeme, "write")) {
+                    print(lexeme, "WRITE");
+                } else if (isToken(lexeme, "open")) {
+                    print(lexeme, "OPEN");
+                } else if (isToken(lexeme, "close")) {
+                    print(lexeme, "CLOSE");
+                } else if (isToken(lexeme, "change")) {
+                    print(lexeme, "CHANGE");
+                } else if (isToken(lexeme, "spell")) {
+                    print(lexeme, "SPELL");
+                } else if (isToken(lexeme, "count")) {
+                    print(lexeme, "COUNT");
+                
 
                 //OPERATORS
                     //Arithmetic
-                    } else  if ("+-*/%".contains(lexeme)) {
+                    } else  if ("+-*/%".contains(lexeme) && (lexeme.length() == 1)) {
                         print(lexeme, "ARITHMETIC_OPERATORS");
 
                     //Relational
-                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*")) {
+                    } else  if (matches(lexeme, ".*[<>]=?|!=|==.*") ) {
                         print(lexeme, "RELATIONAL_OPERATORS");
 
                     //CONDITIONAL
                     } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
-                    } else if (matches(lexeme,"||")) {
+                    } else if (lexeme.equals("||") && (lexeme.length() == 1)) {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
