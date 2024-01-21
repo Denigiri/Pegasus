@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import javax.swing.JFileChooser;
 
 public class NewLexical {
     public static void print(String lexeme, String token) {
@@ -13,31 +14,43 @@ public class NewLexical {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
     }
     public static void main(String[] args) {
+        // Create a file chooser
+        JFileChooser inputfileChooser = new JFileChooser();
 
-        // Get the current directory
-        String currentDirectory = System.getProperty("user.dir");
+        //Set the current directory for the input file chooser
+        inputfileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 
-        // Create file paths (For input and Output)
-        String filePath = currentDirectory + File.separator + "test.pgs";//CHANGE THE FILE NAME TO THE FILE YOU WANT TO SCAN
-        String outputFilePath = currentDirectory + File.separator + "symboltable.txt";
+        // Show the file chooser dialog and get the selected file
+        int result = inputfileChooser.showOpenDialog(null);
+        
+        // Check if the user selected a file
+        if (result == JFileChooser.APPROVE_OPTION) {
 
-        //Check if the file has the appropriate extnesion
-         if (!filePath.endsWith(".pgs")) {
-            System.out.println("Invalid file extension. Please provide a file with .pgs extension.");
-            return;
-        }
+            // Get the selected file
+            File selectedFile = inputfileChooser.getSelectedFile();
 
-        try {
-            // Create a FileInputStream for the specified file
-            FileInputStream fileInputStream = new FileInputStream(new File(filePath));
+            // Create file paths (For input and Output)
+            String filePath = selectedFile.getAbsolutePath();
+            String outputFilePath = System.getProperty("user.dir") + File.separator + "symboltable.txt";
 
-            // Use Scanner to read from the file
-            Scanner sc = new Scanner(fileInputStream);
 
-            // Create a PrintStream to copy the output of printfunctions
-            PrintStream originalOut = System.out;
-            PrintStream fileOut = new PrintStream(new File(outputFilePath));
-            System.setOut(fileOut);
+            //Check if the file has the appropriate extnesion
+            if (!filePath.endsWith(".pgs")) {
+                System.out.println("\nInvalid file extension. Please provide a file with .pgs extension.");
+                return;
+            }
+
+            try {
+                // Create a FileInputStream for the specified file
+                FileInputStream fileInputStream = new FileInputStream(new File(filePath));
+
+                // Use Scanner to read from the file
+                Scanner sc = new Scanner(fileInputStream);
+
+                // Create a PrintStream to copy the output of printfunctions
+                PrintStream originalOut = System.out;
+                PrintStream fileOut = new PrintStream(new File(outputFilePath));
+                System.setOut(fileOut);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -120,19 +133,20 @@ public class NewLexical {
                 }
             }
         
-        //Close Scanner nd InputStream
-        sc.close();
-        fileInputStream.close();
+            //Close Scanner nd InputStream
+            sc.close();
+            fileInputStream.close();
 
-        // Reset the standard output
-        System.setOut(originalOut);
-        System.out.println("\nOutput saved to: " + outputFilePath);
+            // Reset the standard output
+            System.setOut(originalOut);
+            System.out.println("\nOutput saved to: " + outputFilePath);
 
-        }//ERROR HANDLING FOR FILE
-        catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
+            }//ERROR HANDLING FOR FILE
+            catch (FileNotFoundException e) {
+                System.out.println("File not found: " + filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
