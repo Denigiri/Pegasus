@@ -175,6 +175,23 @@ public class NewLexical {
                             stringLiteral.append(next);
                         }
                     }
+                } else if (lexeme.contains("\\\\")) {
+                    StringBuilder singleComment = new StringBuilder();
+                    singleComment.append(lexeme);
+                    
+                    sc.useDelimiter("");
+                    while (sc.hasNext()) {
+                        String next = sc.next();
+                        if (next.contains(String.valueOf("\n"))) {
+                            // Found closing quote
+                            singleComment.append(next);
+                            break;
+                        } else {
+                            sc.useDelimiter("\n");
+                            singleComment.append(next);
+                        }
+                    }
+                    print(singleComment.toString(), "COMMENTS");
                 //ERROR_HANDLING
                 } else {
                     print(lexeme, "UNRECOGNIZED CHARACTERS");
