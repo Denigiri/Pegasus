@@ -1,30 +1,31 @@
 LEXEME       | TOKEN       
 ------------------------------
-this         | IDENTIFIER  
+always       | ALWAYS      
              | ARITHMETIC_OPERATORS
-This         | IDENTIFIER  
+Always       | ALWAYS      
              | ARITHMETIC_OPERATORS
-tHis         | IDENTIFIER  
+aLWAYS       | IDENTIFIER  
              | ARITHMETIC_OPERATORS
-THIS         | IDENTIFIER  
+discrete     | DISCRETE    
              | ARITHMETIC_OPERATORS
-Each         | IDENTIFIER  
+Discrete     | DISCRETE    
              | ARITHMETIC_OPERATORS
-each         | IDENTIFIER  
+DISCRETE     | IDENTIFIER  
              | ARITHMETIC_OPERATORS
-eAcH         | IDENTIFIER  
+continuous   | CONTINUOUS  
              | ARITHMETIC_OPERATORS
-EACH         | IDENTIFIER  
+Continuous   | CONTINUOUS  
              | ARITHMETIC_OPERATORS
-Was          | POINTERS    
+coNTINUOUS   | IDENTIFIER  
              | ARITHMETIC_OPERATORS
-was          | POINTERS    
-Was          | POINTERS    
-WAS          | IDENTIFIER  
+order        | ORDINAL     
              | ARITHMETIC_OPERATORS
-was          | POINTERS    
-WAS          | IDENTIFIER  
+Order        | ORDINAL     
              | ARITHMETIC_OPERATORS
-it           | IDENTIFIER  
+orDer        | IDENTIFIER  
              | ARITHMETIC_OPERATORS
-It           | IDENTIFIER  
+boolean      | BINARY      
+             | ARITHMETIC_OPERATORS
+Boolean      | BINARY      
+             | ARITHMETIC_OPERATORS
+BOOLEAN      | IDENTIFIER  

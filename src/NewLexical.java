@@ -88,14 +88,27 @@ public class NewLexical {
                 
                 //PRONOUNS (POINTERS)
                 //} else if (matches(lexeme, "\\b([Tt]his|[Ee]ach|[Ww]as)\\b")) {
-                //} else if (isToken(lexeme, "this") ||
-                //           isToken(lexeme, "each") ||
-                //           isToken(lexeme, "was") ||
-                //           isToken(lexeme, "it")){
-                } else if (isToken(lexeme, "was")) {
+                } else if (isToken(lexeme, "this") ||
+                           isToken(lexeme, "each") ||
+                           isToken(lexeme, "was") ||
+                           isToken(lexeme, "it")){
                     print(lexeme, "POINTERS");
  
-            
+                //ADJECTIVES (Data Type & Variable Modifiers)
+
+                } else if (isToken(lexeme, "always")) {
+                    print(lexeme, "ALWAYS");
+                //Numerical
+                } else if (isToken(lexeme, "discrete")) {
+                    print(lexeme, "DISCRETE");
+                } else if (isToken(lexeme, "continuous")) {
+                    print(lexeme, "CONTINUOUS");
+                //Categorical
+                } else if (isToken(lexeme, "order")) {
+                    print(lexeme, "ORDINAL");
+                } else if (isToken(lexeme, "boolean")) {
+                    print(lexeme, "BINARY");
+                    
                 //CONJUNCTIONS (IF-ELSE)
                 //} else if (matches(lexeme,"[Ii]f")) {
                 } else if (isToken(lexeme, "if")) { 
@@ -111,6 +124,12 @@ public class NewLexical {
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
 
+                //Prepostion
+                } else if (isToken(lexeme, "after") ||
+                isToken(lexeme, "from") ||
+                isToken(lexeme, "to") ||
+                isToken(lexeme, "in")){
+                print(lexeme, "PREPOSITIONS");
 
                 //OPERATORS
                     //Arithmetic
