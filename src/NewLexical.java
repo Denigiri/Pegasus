@@ -137,12 +137,17 @@ public class NewLexical {
                 
                 //TYPEDEF
                 } else if(isToken(lexeme, "Remember")) { 
-                    print(lexeme, "KEYWORD_CONVERTER");
+                    print(lexeme, "NAME_CONVERTER");
                 } else if(isToken(lexeme, "Shorten")) { 
-                    print(lexeme, "KEYWORD_CONVERTER");
+                    print(lexeme, "NAME_CONVERTER");
                 } else if(isToken(lexeme, "Represent")) { 
+                    print(lexeme, "NAME_CONVERTER");
+                } else if(isToken(lexeme, "mean")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                
+                } else if(isToken(lexeme, "hide")) { 
+                    print(lexeme, "KEYWORD_EDIT");
+                } else if(isToken(lexeme, "insert")) { 
+                    print(lexeme, "KEYWORD_EDIT");
                 //PREPOSITIONS
                 } else if(matches(lexeme, "to")) { 
                     print(lexeme, "PREPOSITION_TO");
