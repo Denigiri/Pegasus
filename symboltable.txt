@@ -1,6 +1,6 @@
 LEXEME               | TOKEN               
 ------------------------------
-A                    | CHARACTER_LITERAL   
+A                    | NOISE_WORDS         
 Score                | IDENTIFIER          
 could                | DATATYPE_LIMITER    
 only                 | DATATYPE_LIMITER    
@@ -9,25 +9,37 @@ from                 | IDENTIFIER
 1                    | INTEGER_LITERAL     
 to                   | PREPOSITION_TO      
 100                  | INTEGER_LITERAL     
-                     | OR_OPERATOR         
-                     | OR_OPERATOR         
-A                    | CHARACTER_LITERAL   
-Grade                | IDENTIFIER          
-could                | DATATYPE_LIMITER    
-only                 | DATATYPE_LIMITER    
-be                   | ASSIGNMENT_KEYWORD  
-"Very Good",         | STRING_LITERAL      
-"Good", "Average",   | STRING_LITERAL      
-"Pass", "Fail"
-A    | STRING_LITERAL      
-Gender               | IDENTIFIER          
-could                | DATATYPE_LIMITER    
-only                 | DATATYPE_LIMITER    
-be                   | ASSIGNMENT_KEYWORD  
-"Female", "Male"
-
-Let | STRING_LITERAL      
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
 Score:               | INVALID: unrecognized characters
-Math                 | IDENTIFIER          
+x                    | CHARACTER_LITERAL   
 be                   | ASSIGNMENT_KEYWORD  
-101                  | INTEGER_LITERAL     
+10                   | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
+Score:               | INVALID: unrecognized characters
+y                    | CHARACTER_LITERAL   
+be                   | ASSIGNMENT_KEYWORD  
+50                   | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
+Total:               | INVALID: unrecognized characters
+z                    | CHARACTER_LITERAL   
+be                   | ASSIGNMENT_KEYWORD  
+x                    | CHARACTER_LITERAL   
++                    | ARITHMETIC_OPERATORS
+y                    | CHARACTER_LITERAL   
+                     | INVALID: unrecognized characters
+Show                 | PRINT               
+Total                | IDENTIFIER          
+z                    | CHARACTER_LITERAL   
+                     | INVALID: unrecognized characters
+"HELOL"              | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+//                   | INVALID: unrecognized characters
+aesunoetaitnoai      | IDENTIFIER          
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+/*aeuaoneiniae*/     | MULTI-LINE COMMENT  

@@ -158,13 +158,13 @@ public class NewLexical {
             sc.useDelimiter(//whitespace between keywords
                             "\\s" 
                             //if before is integer + whitespace, and after is operator
-                            // + "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
+                            //+ "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
                             // //if before is operator + whitespace, and after is integer
-                            // + "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
+                            //+ "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
                             // //if before is integer, and after is operator
-                            // + "|(?<=\\d)(?=[()+-/*%<>=&|])"
+                            //+ "|(?<=\\d)(?=[()+-/*%<>=&|])"
                             // //if before is operator, and after is integer
-                            // + "|(?<=[()+-/*%<>=&|])(?=\\d)"
+                            //+ "|(?<=[()+-/*%<>=&|])(?=\\d)"
                             //separate literals with commas
                             + "|(?=,\\s*)");
             
@@ -173,6 +173,7 @@ public class NewLexical {
             while (sc.hasNext()) {
                 String lexeme = sc.next();
 
+                
                 //FLEXIBLE DATA TYPES
                 if (isToken(lexeme, "could")) { 
                     print(lexeme, "DATATYPE_LIMITER");
@@ -183,6 +184,14 @@ public class NewLexical {
                 } else if(isMispelled(lexeme, "only")) { 
                     error(lexeme, "only");
                 
+                } else if (isToken(lexeme, "of")) { 
+                    print(lexeme, "RELATIONALS_OF");
+                } else if (isToken(lexeme, "is")) {
+                    print(lexeme, "RELATIONALS_IS");
+                //NOISE WORDS
+                }else if(isToken(lexeme, "a") ||
+                            isToken(lexeme, "an")) {
+                            print(lexeme, "NOISE_WORDS");
 
                 //ASSIGNMENT
                 } else if(matches(lexeme, "let")) { 
@@ -347,7 +356,7 @@ public class NewLexical {
                     //CONDITIONAL
                     } else if (lexeme.equals("&&")) {
                         print(lexeme, "AND_OPERATOR");
-                    } else if (matches(lexeme,"||")) {
+                    } else if (lexeme.equals("||")) {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
@@ -381,7 +390,7 @@ public class NewLexical {
                     print(lexeme, "CHARACTER_LITERAL");
                 }  else if (isToken(lexeme, "null")) {
                     print(lexeme, "NULL_LITERAL");
-                } else if (lexeme.charAt(0)=='\"') {
+                } else if (lexeme.equals('\"')) {
                     String literal = matchNext(lexeme, "\s", "\"", sc);
                     print(literal, "STRING_LITERAL");
 
