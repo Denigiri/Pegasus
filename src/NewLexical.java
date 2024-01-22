@@ -140,7 +140,7 @@ public class NewLexical {
 
             String code = "/*multi-line\n *comment */ 123 123.3.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
             String code2 = "cold in t Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
-            Scanner sc = new Scanner(code2);
+            Scanner sc = new Scanner(code);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -393,9 +393,9 @@ public class NewLexical {
                 } else if (matches(lexeme,"[a-zA-Z_\\p{Sc}][a-zA-Z0-9._]*")) {
                     print(lexeme, "IDENTIFIER");
                 } else if (matches(lexeme,"[0-9][a-zA-Z0-9._]*")) {
-                    print(lexeme, "INVALID_IDENTIFIER");
+                    print(lexeme, "INVALID: identifier cannot start with number");
                 } else {
-                    print(lexeme, "UNRECOGNIZED CHARACTERS");
+                    print(lexeme, "INVALID: unrecognized characters");
                 }
             }
         
