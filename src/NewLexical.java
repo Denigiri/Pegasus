@@ -76,6 +76,22 @@ public class NewLexical {
                  (lexeme.substring(1).equals(lexeme.substring(1).toLowerCase())) );
     }
 
+    public static String scanMultiLineComment(String lexeme, Scanner sc) {
+        StringBuilder wholeLexeme = new StringBuilder();
+        wholeLexeme.append(lexeme);
+    
+        while (sc.hasNext()) {
+            String next = sc.next();
+            wholeLexeme.append(next);
+    
+            // Check if the current lexeme ends with the specified end delimiter
+            if (wholeLexeme.toString().endsWith("*/")) {
+                break;
+            }
+        }
+        return wholeLexeme.toString();
+    }
+
     public static String matchNext(String lexeme, String separators, String end_delimiter, Scanner sc) {
         StringBuilder wholeLexeme = new StringBuilder();
         wholeLexeme.append(lexeme);
@@ -382,8 +398,8 @@ public class NewLexical {
                     String comment = matchNext(lexeme, "\n", "\n", sc);
                     print(comment, "COMMENTS");
                 } else if (lexeme.contains("/*")) {
-                    // String literal = matchNext(lexeme, "\n *", "*/", sc);
-                    // print(literal, "MULTI-LINE COMMENT");
+                    String literal = scanMultiLineComment(lexeme, sc);
+                    print(literal, "MULTI-LINE COMMENT");
 
                 //IDENTIFIER
                 } else if (matches(lexeme,"[a-zA-Z_\\p{Sc}][a-zA-Z0-9._]*")) {
