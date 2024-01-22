@@ -3,3 +3,16 @@ symboltable.txt
 test.pgs
 symboltable.txt
 test.pgs
+bin/LexicalAnalyzer.class
+bin/NewLexical.class
+bin/tests/LexicalAnalyzer.class
+bin/tests/Test.class
+bin/tests/Tokens.class
+src/LexicalAnalyzer.class
+src/Main.class
+src/NewLexical.class
+src/LexicalAnalyzer.class
+src/LexicalAnalyzer.java
+src/tempCodeRunnerFile.java
+test.psg
+README.md
