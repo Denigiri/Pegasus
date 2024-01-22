@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
@@ -11,9 +12,63 @@ public class NewLexical {
         System.out.printf("%-20s | %-20s\n", lexeme, token);
     }
 
+    public static void error(String lexeme, String token) {
+        System.out.printf("%-20s | %-20s\n", lexeme, "INVALID: \"" + token + "\" is mispelled");
+    }
+
     public static boolean matches(String lexeme, String token_pattern) {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
+       
     }
+
+    public static boolean isMispelled(String lexeme, String token) {
+        int levenshtein_distance = calculate(lexeme, token);
+        // System.out.println("\t" + levenshtein_distance + lexeme + token);
+
+        if (levenshtein_distance ==1) {
+            return true;
+        } 
+        return false;
+    }
+
+    static int calculate(String x, String y) {
+        int[][] dp = new int[x.length() + 1][y.length() + 1];
+
+        for (int i = 0; i <= x.length(); i++) {
+            for (int j = 0; j <= y.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                }
+                else if (j == 0) {
+                    dp[i][j] = i;
+                }
+                else {
+                    dp[i][j] = min(dp[i - 1][j - 1] 
+                    + costOfSubstitution(x.charAt(i - 1), y.charAt(j - 1)), 
+                    dp[i - 1][j] + 1, 
+                    dp[i][j - 1] + 1);
+                }
+            }
+        }
+        
+        return dp[x.length()][y.length()];
+    }
+    public static int costOfSubstitution(char a, char b) {
+        // String keyboard = "qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
+        // int distance;
+        // if (a ==b) {return 0;}
+        // else {
+        //     // System.out.println(a + " " + b);
+        //     distance = (keyboard.indexOf(b) - keyboard.indexOf(a)) % 10;
+        // }
+        // return distance;
+        return a == b ? 0 : 1;
+    }
+    public static int min(int... numbers) {
+        return Arrays.stream(numbers)
+          .min().orElse(Integer.MAX_VALUE);
+    }
+
 
     public static boolean isToken(String lexeme, String token){
         return   (lexeme.toLowerCase().equals(token) && 
@@ -84,8 +139,8 @@ public class NewLexical {
              */
 
             String code = "/*multi-line\n *comment */ 123 123.3.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            String code2 = "Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
-            Scanner sc = new Scanner(code);
+            String code2 = "cold in t Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
+            Scanner sc = new Scanner(code2);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -113,114 +168,164 @@ public class NewLexical {
                 //FLEXIBLE DATA TYPES
                 if (isToken(lexeme, "could")) { 
                     print(lexeme, "DATATYPE_LIMITER");
+                } else if (isMispelled(lexeme, "could")) {
+                    error(lexeme, "could");
                 } else if(isToken(lexeme, "only")) { 
                     print(lexeme, "DATATYPE_LIMITER");
+                } else if(isMispelled(lexeme, "only")) { 
+                    error(lexeme, "only");
                 
 
                 //ASSIGNMENT
-                } else if(isToken(lexeme, "let")) { 
+                } else if(matches(lexeme, "let")) { 
                     print(lexeme, "VARIABLE_INITIALIZER");
-                } else if(isToken(lexeme, "be")) { 
+                } else if(isMispelled(lexeme, "let")) { 
+                    error(lexeme, "let");
+                
+                } else if(matches(lexeme, "be")) { 
                     print(lexeme, "ASSIGNMENT_KEYWORD");
-                } else if(isToken(lexeme, "is")) { 
+                } else if(isMispelled(lexeme, "be")) { 
+                    error(lexeme, "be");
+                
+                } else if(matches(lexeme, "is")) { 
                     print(lexeme, "ASSIGNMENT_KEYWORD");
-                } 
+                
 
                 
                 //PRONOUNS (POINTERS)
-                else if(isToken(lexeme, "this") ||
+                } else if(isToken(lexeme, "this") ||
                           isToken(lexeme, "each") ||
-                          isToken(lexeme, "was") ||
                           isToken(lexeme, "it") ||
                           isToken(lexeme, "was")) {
                     print(lexeme, "POINTERS");
+                } else if(isMispelled(lexeme, "this") ||
+                          isMispelled(lexeme, "each") ||
+                          isMispelled(lexeme, "it") ||
+                          isMispelled(lexeme, "was")) { 
+                    error(lexeme, lexeme);
                 
                 //TYPEDEF
-                } else if(isToken(lexeme, "Remember")) { 
+                } else if(matches(lexeme, "Remember")) { 
                     print(lexeme, "NAME_CONVERTER");
-                } else if(isToken(lexeme, "Shorten")) { 
+                } else if(isMispelled(lexeme, "Remember")) { 
+                    error(lexeme, "Remember");            
+                } else if(matches(lexeme, "Shorten")) { 
                     print(lexeme, "NAME_CONVERTER");
-                } else if(isToken(lexeme, "Represent")) { 
+                } else if(isMispelled(lexeme, "Shorten")) { 
+                    error(lexeme, "Shorten");
+                    
+                } else if(matches(lexeme, "Represent")) { 
                     print(lexeme, "NAME_CONVERTER");
-                } else if(isToken(lexeme, "mean")) { 
+                } else if(isMispelled(lexeme, "Represent")) { 
+                    error(lexeme, "Represent");
+                    
+
+                } else if(matches(lexeme, "mean")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(isToken(lexeme, "hide")) { 
-                    print(lexeme, "KEYWORD_EDIT");
-                } else if(isToken(lexeme, "insert")) { 
-                    print(lexeme, "KEYWORD_EDIT");
+                } else if(isMispelled(lexeme, "mean")) { 
+                    error(lexeme, "mean");
+
+                } else if(isToken(lexeme, "hide") ||
+                          isToken(lexeme, "insert")) { 
+                    error(lexeme, lexeme);
                 //PREPOSITIONS
                 } else if(matches(lexeme, "to")) { 
                     print(lexeme, "PREPOSITION_TO");
+
                 } else if(matches(lexeme, "as")) { 
                     print(lexeme, "PREPOSITION_AS");
-                } else if(matches(lexeme, "from")) { 
-                    print(lexeme, "PREPOSITION_FROM");
+
                 } else if(matches(lexeme, "in")) { 
                     print(lexeme, "PREPOSITION_IN");
-                } else if(matches(lexeme, "at")) { 
-                    print(lexeme, "PREPOSITION_AT");
                 
                 } else if(matches(lexeme, "one")) {
                     print(lexeme, "QUANTIFIER");
-                } else if(matches(lexeme, "time")) {
-                    print(lexeme, "TIME_KEYWORD");
+                } else if(isMispelled(lexeme, "time")) {
+                    error(lexeme, "time");
                 
                 //ADJECTIVES (Data Type & Variable Modifiers)
                 } else if (isToken(lexeme, "always")) {
                     print(lexeme, "CONSTANT");
+                } else if(isMispelled(lexeme, "always")) {
+                    error(lexeme, "always");
+                
                 //NUMERICAL
                 } else if (isToken(lexeme, "discrete")) {
                     print(lexeme, "DISCRETE");
+                } else if(isMispelled(lexeme, "discrete")) {
+                    error(lexeme, "discrete");
+                
                 } else if (isToken(lexeme, "continuous")) {
                     print(lexeme, "CONTINUOUS");
+                } else if(isMispelled(lexeme, "continuous")) { 
+                    error(lexeme, "continuous");
+
                 //CATEGORICAL
                 } else if (isToken(lexeme, "order")) {
                     print(lexeme, "ORDINAL");
+                } else if(isMispelled(lexeme, "order")) { 
+                    error(lexeme, "order");
+
                 } else if (isToken(lexeme, "boolean")) {
                     print(lexeme, "BINARY");
-                
-                } else if (isToken(lexeme, "of")) { 
-                    print(lexeme, "RELATIONALS_OF");
-                } else if (isToken(lexeme, "is")) {
-                    print(lexeme, "RELATIONALS_IS");
 
                 //TASKS (Functions)
                 } else if (isToken(lexeme, "show")) {
                     print(lexeme, "PRINT");
+                } else if(isMispelled(lexeme, "show")) { 
+                    error(lexeme, "show");
                 } else if (isToken(lexeme, "ask")) {
                     print(lexeme, "SCAN");
+                } else if(isMispelled(lexeme, "ask")) { 
+                    error(lexeme, "ask");
                 } else if (isToken(lexeme, "read")) {
                     print(lexeme, "READ");
+                } else if(isMispelled(lexeme, "read")) { 
+                    error(lexeme, "read");
                 } else if (isToken(lexeme, "write")) {
                     print(lexeme, "WRITE");
+                } else if(isMispelled(lexeme, "write")) { 
+                    error(lexeme, "write");
                 } else if (isToken(lexeme, "open")) {
                     print(lexeme, "OPEN");
+                } else if(isMispelled(lexeme, "open")) { 
+                    error(lexeme, "open");
                 } else if (isToken(lexeme, "close")) {
                     print(lexeme, "CLOSE");
+                } else if(isMispelled(lexeme, "close")) { 
+                    error(lexeme, "close");
                 } else if (isToken(lexeme, "change")) {
                     print(lexeme, "CHANGE");
+                } else if(isMispelled(lexeme, "change")) { 
+                    error(lexeme, "change");
                 } else if (isToken(lexeme, "spell")) {
                     print(lexeme, "SPELL");
+                } else if(isMispelled(lexeme, "spell")) { 
+                    error(lexeme, "spell");
                 } else if (isToken(lexeme, "count")) {
                     print(lexeme, "COUNT");
+                } else if(isMispelled(lexeme, "count")) { 
+                    error(lexeme, "count");
                 
 
                 //CONJUNCTIONS (IF-ELSE)
                 } else if (isToken(lexeme, "if")) { 
                     print(lexeme, "CONJUNCTION_IF");
+                } else if(isMispelled(lexeme, "if")) { 
+                    error(lexeme, "if");
                 } else if (isToken(lexeme, "then")) {
                     print(lexeme, "CONJUNCTION_THEN");  
+                } else if(isMispelled(lexeme, "then")) { 
+                    error(lexeme, "then");
                 } else if (isToken(lexeme,"else")) {
                     print(lexeme, "CONJUNCTION_ELSE");
+                } else if(isMispelled(lexeme, "else")) { 
+                    error(lexeme, "else");
                 
                 //UNION
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
-                
-                //NOISE WORDS     
-                }else if(isToken(lexeme, "a") ||
-                            isToken(lexeme, "an")) {
-                            print(lexeme, "NOISE_WORDS");
+
 
                 //OPERATORS
                     //Arithmetic
