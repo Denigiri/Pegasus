@@ -268,8 +268,6 @@ public class NewLexical {
 
                 } else if (isToken(lexeme, "boolean")) {
                     print(lexeme, "BINARY");
-                } else if(isMispelled(lexeme, "boolean")) { 
-                    error(lexeme, "boolean");
 
                 //TASKS (Functions)
                 } else if (isToken(lexeme, "show")) {
@@ -327,8 +325,6 @@ public class NewLexical {
                 //UNION
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
-                } else if(isMispelled(lexeme, "union")) { 
-                    error(lexeme, "union");
 
 
                 //OPERATORS
