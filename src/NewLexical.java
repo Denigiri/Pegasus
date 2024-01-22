@@ -23,7 +23,6 @@ public class NewLexical {
 
     public static boolean isMispelled(String lexeme, String token) {
         int levenshtein_distance = calculate(lexeme, token);
-        // System.out.println("\t" + levenshtein_distance + lexeme + token);
 
         if (levenshtein_distance ==1) {
             return true;
@@ -156,7 +155,7 @@ public class NewLexical {
 
             //split code by...
             sc.useDelimiter(//whitespace between keywords
-                            "\\s" 
+                            "\s");
                             //if before is integer + whitespace, and after is operator
                             //+ "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
                             // //if before is operator + whitespace, and after is integer
@@ -166,7 +165,7 @@ public class NewLexical {
                             // //if before is operator, and after is integer
                             //+ "|(?<=[()+-/*%<>=&|])(?=\\d)"
                             //separate literals with commas
-                            + "|(?=,\\s*)");
+                            // + "|(?=,\s*)");
             
             
 
@@ -194,10 +193,8 @@ public class NewLexical {
                             print(lexeme, "NOISE_WORDS");
 
                 //ASSIGNMENT
-                } else if(matches(lexeme, "let")) { 
+                } else if(matches(lexeme, "Let")) { 
                     print(lexeme, "VARIABLE_INITIALIZER");
-                } else if(isMispelled(lexeme, "let")) { 
-                    error(lexeme, "let");
                 
                 } else if(matches(lexeme, "be")) { 
                     print(lexeme, "ASSIGNMENT_KEYWORD");
@@ -358,10 +355,10 @@ public class NewLexical {
                         print(lexeme, "AND_OPERATOR");
                     } else if (lexeme.equals("||")) {
                         print(lexeme, "OR_OPERATOR");  
-                    } else  if (matches(lexeme,"!")) {
+                    } else  if (matches(lexeme, "!")) {
                         print(lexeme, "NOT_OPERATOR");
                     
-                    sc.useDelimiter("");
+                    // sc.useDelimiter("");
                     } else if (lexeme.contains("(") && !lexeme.contains(")")) {
                         print(lexeme, "INVALID: UNMATCHED PARENTHESES");
                     } else if (lexeme.contains(")") && !lexeme.contains("(")) {
