@@ -94,16 +94,14 @@ public class NewLexical {
             //split code by...
             sc.useDelimiter(//whitespace between keywords
                             "\\s" 
-                            // //if before is integer + whitespace, and after is operator
-                            // + "|(?<=\\d\\s*)(?=[+-/*%<>=&|])" 
-                            // //if before is operator + whitespace, and after is integer
-                            // + "|(?<=[+-/*%<>=&|]\\s)(?=\\d)"
-                            // //if before is integer, and after is operator
-                            // + "|(?<=\\d)(?=[+-/*%<>=&|])"
-                            // //if before is operator, and after is integer
-                            // + "|(?<=[+-/*%<>=&|])(?=\\d)"
-                            // //separate string literals with double quotation marks
-                            // + "|\\s(?=\")(?=.)(?=\")"
+                            //if before is integer + whitespace, and after is operator
+                            + "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
+                            //if before is operator + whitespace, and after is integer
+                            + "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
+                            //if before is integer, and after is operator
+                            + "|(?<=\\d)(?=[()+-/*%<>=&|])(?!.)"
+                            //if before is operator, and after is integer
+                            + "|(?<!.)(?<=[()+-/*%<>=&|])(?=\\d)"
                             //separate literals with commas
                             + "|(?=,\\s*)");
             
