@@ -40,7 +40,7 @@ public class NewLexical {
         return wholeLexeme.toString();
     }
     
-    
+    static int commas = 0;
     public static void main(String[] args) {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
@@ -83,8 +83,8 @@ public class NewLexical {
              * 
              */
 
-            String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            String code2 = "Represent Principles_of_Programming_language as P.P.L.";
+            String code = "/*multi-line\n *comment */ 123 123.3.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
+            String code2 = "Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
             Scanner sc = new Scanner(code);
 
             // Print the table header
@@ -95,13 +95,13 @@ public class NewLexical {
             sc.useDelimiter(//whitespace between keywords
                             "\\s" 
                             //if before is integer + whitespace, and after is operator
-                            + "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
-                            //if before is operator + whitespace, and after is integer
-                            + "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
-                            //if before is integer, and after is operator
-                            + "|(?<=\\d)(?=[()+-/*%<>=&|])(?!.)"
-                            //if before is operator, and after is integer
-                            + "|(?<!.)(?<=[()+-/*%<>=&|])(?=\\d)"
+                            // + "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
+                            // //if before is operator + whitespace, and after is integer
+                            // + "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
+                            // //if before is integer, and after is operator
+                            // + "|(?<=\\d)(?=[()+-/*%<>=&|])"
+                            // //if before is operator, and after is integer
+                            // + "|(?<=[()+-/*%<>=&|])(?=\\d)"
                             //separate literals with commas
                             + "|(?=,\\s*)");
             
@@ -136,13 +136,11 @@ public class NewLexical {
                     print(lexeme, "POINTERS");
                 
                 //TYPEDEF
-                } else if(matches(lexeme, "Remember")) { 
+                } else if(isToken(lexeme, "Remember")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Shorten")) { 
+                } else if(isToken(lexeme, "Shorten")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Represent")) { 
-                    print(lexeme, "KEYWORD_CONVERTER");
-                } else if(matches(lexeme, "Represent")) { 
+                } else if(isToken(lexeme, "Represent")) { 
                     print(lexeme, "KEYWORD_CONVERTER");
                 
                 //PREPOSITIONS
@@ -166,10 +164,8 @@ public class NewLexical {
                 //CONJUNCTIONS (IF-ELSE)
                 } else if (isToken(lexeme, "if")) { 
                     print(lexeme, "CONJUNCTION_IF");
-
                 } else if (isToken(lexeme, "then")) {
                     print(lexeme, "CONJUNCTION_THEN");  
-
                 } else if (isToken(lexeme,"else")) {
                     print(lexeme, "CONJUNCTION_ELSE");
                 
@@ -194,18 +190,30 @@ public class NewLexical {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme,"!")) {
                         print(lexeme, "NOT_OPERATOR");
+                    
+                    sc.useDelimiter("");
+                    } else if (lexeme.contains("(") && !lexeme.contains(")")) {
+                        print(lexeme, "INVALID: UNMATCHED PARENTHESES");
+                    } else if (lexeme.contains(")") && !lexeme.contains("(")) {
+                        print(lexeme, "INVALID: UNMATCHED PARENTHESES");
+
+                    
 
                 //DELIMETERS
                 } else if (matches(lexeme,",")) {
-                    print(lexeme, "ITEM_DELIMETER");
+                    print(lexeme, "DELIMITER_COMMA");
+                } else if (matches(lexeme,"\t")) {
+                    print(lexeme, "DELIMITER_TAB");
                 } else if (matches(lexeme,"\n")) {
-                    print(lexeme, "STATEMENT_DELIMETER");
+                    print(lexeme, "DELIMITER_NEWLINE");
                 
                 //LITERALS
                 } else if (matches(lexeme, "[0-9]+")) {
                     print(lexeme, "INTEGER_LITERAL");
-                } else if (matches(lexeme, "[0-9]+\\.[0-9]+")) {
+                } else if (matches(lexeme, "[0-9]+.[0-9]+")) {
                     print(lexeme, "FLOAT_LITERAL");
+                } else if (matches(lexeme, "[0-9]+.[0-9]+.")) {
+                    print(lexeme, "INVALID: EXCESS FLOATING POINT DECIMALS");
                 } else if (matches(lexeme, "true|false")) {
                     print(lexeme, "BOOLEAN_LITERAL");
                 } else if (lexeme.length() == 1) {
