@@ -138,7 +138,7 @@ public class NewLexical {
              * 
              */
 
-            String code = "/*multi-line\n *comment */ 123 123.3.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
+            String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
             String code2 = "cold in t Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
             Scanner sc = new Scanner(code);
 
@@ -363,9 +363,9 @@ public class NewLexical {
                 //LITERALS
                 } else if (matches(lexeme, "[0-9]+")) {
                     print(lexeme, "INTEGER_LITERAL");
-                } else if (matches(lexeme, "[0-9]+.[0-9]+")) {
+                } else if (matches(lexeme, "\\d+(?:\\.\\d+)")) {
                     print(lexeme, "FLOAT_LITERAL");
-                } else if (matches(lexeme, "[0-9]+.[0-9]+.")) {
+                } else if (matches(lexeme, "\\d+(?:\\.\\d+).")) {
                     print(lexeme, "INVALID: EXCESS FLOATING POINT DECIMALS");
                 } else if (matches(lexeme, "true|false")) {
                     print(lexeme, "BOOLEAN_LITERAL");
