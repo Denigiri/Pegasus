@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 
@@ -13,7 +14,56 @@ public class NewLexical {
 
     public static boolean matches(String lexeme, String token_pattern) {
         return lexeme.matches(token_pattern) || lexeme.equals(token_pattern);
+       
     }
+
+    public static boolean isMispelled(String lexeme, String token) {
+        int levenshtein_distance = calculate(lexeme, token);
+
+        if (levenshtein_distance <= 1) {
+            return true;
+        } 
+        return false;
+    }
+
+    static int calculate(String x, String y) {
+        int[][] dp = new int[x.length() + 1][y.length() + 1];
+
+        for (int i = 0; i <= x.length(); i++) {
+            for (int j = 0; j <= y.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                }
+                else if (j == 0) {
+                    dp[i][j] = i;
+                }
+                else {
+                    dp[i][j] = min(dp[i - 1][j - 1] 
+                    + costOfSubstitution(x.charAt(i - 1), y.charAt(j - 1)), 
+                    dp[i - 1][j] + 1, 
+                    dp[i][j - 1] + 1);
+                }
+            }
+        }
+
+        return dp[x.length()][y.length()];
+    }
+    public static int costOfSubstitution(char a, char b) {
+        // String keyboard = "qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
+        // int distance;
+        // if (a ==b) {return 0;}
+        // else {
+        //     System.out.println(a + " " + b);
+        //     distance = (keyboard.indexOf(a) - keyboard.indexOf(b)) % 10;
+        // }
+        // return distance;
+        return a == b ? 0 : 1;
+    }
+    public static int min(int... numbers) {
+        return Arrays.stream(numbers)
+          .min().orElse(Integer.MAX_VALUE);
+    }
+
 
     public static boolean isToken(String lexeme, String token){
         return   (lexeme.toLowerCase().equals(token) && 
@@ -84,8 +134,8 @@ public class NewLexical {
              */
 
             String code = "/*multi-line\n *comment */ 123 123.3.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            String code2 = "Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
-            Scanner sc = new Scanner(code);
+            String code2 = "cold t Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
+            Scanner sc = new Scanner(code2);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -113,7 +163,11 @@ public class NewLexical {
                 //FLEXIBLE DATA TYPES
                 if (isToken(lexeme, "could")) { 
                     print(lexeme, "DATATYPE_LIMITER");
-                } else if(isToken(lexeme, "only")) { 
+                } 
+                if(isMispelled(lexeme, "could")) {
+                    print(lexeme, "INVALID: could keyword is mispelled");
+                }
+                else if(isToken(lexeme, "only")) { 
                     print(lexeme, "DATATYPE_LIMITER");
                 
 
@@ -151,6 +205,8 @@ public class NewLexical {
                 //PREPOSITIONS
                 } else if(matches(lexeme, "to")) { 
                     print(lexeme, "PREPOSITION_TO");
+                } else if(isMispelled(lexeme, "to")) { 
+                    print(lexeme, "INVALID: to keyword is mispelled");
                 } else if(matches(lexeme, "as")) { 
                     print(lexeme, "PREPOSITION_AS");
                 } else if(matches(lexeme, "from")) { 
