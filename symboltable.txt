@@ -1,85 +1,45 @@
-LEXEME       | TOKEN       
+LEXEME               | TOKEN               
 ------------------------------
-always       | ALWAYS      
-             | INVALID_TOKEN
-Always       | ALWAYS      
-             | INVALID_TOKEN
-aLWAYS       | IDENTIFIER  
-             | INVALID_TOKEN
-discrete     | DISCRETE    
-             | INVALID_TOKEN
-Discrete     | DISCRETE    
-             | INVALID_TOKEN
-DISCRETE     | IDENTIFIER  
-             | INVALID_TOKEN
-continuous   | CONTINUOUS  
-             | INVALID_TOKEN
-Continuous   | CONTINUOUS  
-             | INVALID_TOKEN
-coNTINUOUS   | IDENTIFIER  
-             | INVALID_TOKEN
-order        | ORDINAL     
-             | INVALID_TOKEN
-Order        | ORDINAL     
-             | INVALID_TOKEN
-orDer        | IDENTIFIER  
-             | INVALID_TOKEN
-boolean      | BINARY      
-             | INVALID_TOKEN
-Boolean      | BINARY      
-             | INVALID_TOKEN
-BOOLEAN      | IDENTIFIER  
-             | INVALID_TOKEN
-show         | PRINT       
-             | INVALID_TOKEN
-Show         | PRINT       
-             | INVALID_TOKEN
-SHOW         | IDENTIFIER  
-             | INVALID_TOKEN
-ask          | SCAN        
-             | INVALID_TOKEN
-Ask          | SCAN        
-             | INVALID_TOKEN
-ASK          | IDENTIFIER  
-             | INVALID_TOKEN
-read         | READ        
-             | INVALID_TOKEN
-Read         | READ        
-             | INVALID_TOKEN
-READ         | IDENTIFIER  
-             | INVALID_TOKEN
-write        | WRITE       
-             | INVALID_TOKEN
-Write        | WRITE       
-             | INVALID_TOKEN
-WRITE        | IDENTIFIER  
-             | INVALID_TOKEN
-open         | OPEN        
-             | INVALID_TOKEN
-Open         | OPEN        
-             | INVALID_TOKEN
-OPEN         | IDENTIFIER  
-             | INVALID_TOKEN
-close        | CLOSE       
-             | INVALID_TOKEN
-Close        | CLOSE       
-             | INVALID_TOKEN
-CLOSE        | IDENTIFIER  
-             | INVALID_TOKEN
-change       | CHANGE      
-             | INVALID_TOKEN
-Change       | CHANGE      
-             | INVALID_TOKEN
-CHANGE       | IDENTIFIER  
-             | INVALID_TOKEN
-spell        | SPELL       
-             | INVALID_TOKEN
-Spell        | SPELL       
-             | INVALID_TOKEN
-SPELL        | IDENTIFIER  
-             | INVALID_TOKEN
-count        | COUNT       
-             | INVALID_TOKEN
-Count        | COUNT       
-             | INVALID_TOKEN
-COUNT        | IDENTIFIER  
+A                    | NOISE_WORDS         
+Score                | IDENTIFIER          
+could                | DATATYPE_LIMITER    
+only                 | DATATYPE_LIMITER    
+be                   | ASSIGNMENT_KEYWORD  
+from                 | IDENTIFIER          
+1                    | INTEGER_LITERAL     
+to                   | PREPOSITION_TO      
+100                  | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
+Score:               | INVALID: unrecognized characters
+x                    | CHARACTER_LITERAL   
+be                   | ASSIGNMENT_KEYWORD  
+10                   | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
+Score:               | INVALID: unrecognized characters
+y                    | CHARACTER_LITERAL   
+be                   | ASSIGNMENT_KEYWORD  
+50                   | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+Let                  | INVALID: "let" is mispelled
+Total:               | INVALID: unrecognized characters
+z                    | CHARACTER_LITERAL   
+be                   | ASSIGNMENT_KEYWORD  
+x                    | CHARACTER_LITERAL   
++                    | ARITHMETIC_OPERATORS
+y                    | CHARACTER_LITERAL   
+                     | INVALID: unrecognized characters
+Show                 | PRINT               
+Total                | IDENTIFIER          
+z                    | CHARACTER_LITERAL   
+                     | INVALID: unrecognized characters
+"HELOL"              | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+//                   | INVALID: unrecognized characters
+aesunoetaitnoai      | IDENTIFIER          
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+/*aeuaoneiniae*/     | MULTI-LINE COMMENT  
