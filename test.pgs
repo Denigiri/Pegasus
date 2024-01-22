@@ -1,1 +1,5 @@
-a an
+A Score could only be from 1 to 100 
+A Grade could only be "Very Good", "Good", "Average", "Pass", "Fail"
+A Gender could only be "Female", "Male"
+
+Let Score: Math be 101

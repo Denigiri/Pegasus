@@ -116,47 +116,39 @@ public class NewLexical {
         // Create a file chooser
         JFileChooser inputfileChooser = new JFileChooser();
 
-        // //Set the current directory for the input file chooser
-        // inputfileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        //Set the current directory for the input file chooser
+        inputfileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 
-        // // Show the file chooser dialog and get the selected file
-        // int result = inputfileChooser.showOpenDialog(null);
+        // Show the file chooser dialog and get the selected file
+        int result = inputfileChooser.showOpenDialog(null);
         
-        // // Check if the user selected a file
-        // if (result == JFileChooser.APPROVE_OPTION) {
+        // Check if the user selected a file
+        if (result == JFileChooser.APPROVE_OPTION) {
 
-        //     // Get the selected file
-        //     File selectedFile = inputfileChooser.getSelectedFile();
+            // Get the selected file
+            File selectedFile = inputfileChooser.getSelectedFile();
 
-        //     // Create file paths (For input and Output)
-        //     String filePath = selectedFile.getAbsolutePath();
-        //     String outputFilePath = System.getProperty("user.dir") + File.separator + "symboltable.txt";
+            // Create file paths (For input and Output)
+            String filePath = selectedFile.getAbsolutePath();
+            String outputFilePath = System.getProperty("user.dir") + File.separator + "symboltable.txt";
 
+            //Check if the file has the appropriate extnesion
+            if (!filePath.endsWith(".pgs")) {
+                System.out.println("\nInvalid file extension. Please provide a file with .pgs extension.");
+                return;
+            }
 
-        //     //Check if the file has the appropriate extnesion
-        //     if (!filePath.endsWith(".pgs")) {
-        //         System.out.println("\nInvalid file extension. Please provide a file with .pgs extension.");
-        //         return;
-        //     }
+        try {
+            // Create a FileInputStream for the specified file
+            FileInputStream fileInputStream = new FileInputStream(new File(filePath));
 
-        // try {
-            // // Create a FileInputStream for the specified file
-            // FileInputStream fileInputStream = new FileInputStream(new File(filePath));
+            // Use Scanner to read from the file
+            Scanner sc = new Scanner(fileInputStream);
 
-            // // Use Scanner to read from the file
-            // Scanner sc = new Scanner(fileInputStream);
-
-            // // Create a PrintStream to copy the output of printfunctions
-            // PrintStream originalOut = System.out;
-            // PrintStream fileOut = new PrintStream(new File(outputFilePath));
-            // System.setOut(fileOut);
-            /*
-             * 
-             */
-
-            String code = "/*multi-line\n *comment */ 123 123.3 true false null Each This 3+3 a was == + If < <= 1aaa \"hey hoy\" \\\\hey how\n";
-            String code2 = "cold in t Represent,, Principles_of_Programming_language as P.P.L.\n (2 +2)";
-            Scanner sc = new Scanner(code);
+            // Create a PrintStream to copy the output of printfunctions
+            PrintStream originalOut = System.out;
+            PrintStream fileOut = new PrintStream(new File(outputFilePath));
+            System.setOut(fileOut);
 
             // Print the table header
             print("LEXEME", "TOKEN");
@@ -413,19 +405,18 @@ public class NewLexical {
         
             //Close Scanner and InputStream
             sc.close();
-            // fileInputStream.close();
+            fileInputStream.close();
 
-            // // Reset the standard output
-            // System.setOut(originalOut);
-            // System.out.println("\nOutput saved to: " + outputFilePath);
+            // Reset the standard output
+            System.setOut(originalOut);
+            System.out.println("\nOutput saved to: " + outputFilePath);
 
-            // }//ERROR HANDLING FOR FILE
-            // catch (FileNotFoundException e) {
-            //     System.out.println("File not found: " + filePath);
-            // } catch (Exception e) {
-            //     e.printStackTrace();
-            // }
+            }//ERROR HANDLING FOR FILE
+            catch (FileNotFoundException e) {
+                System.out.println("File not found: " + filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-// }
-
+}
