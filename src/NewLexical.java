@@ -178,6 +178,11 @@ public class NewLexical {
                     print(lexeme, "ORDINAL");
                 } else if (isToken(lexeme, "boolean")) {
                     print(lexeme, "BINARY");
+                
+                } else if (isToken(lexeme, "of")) { 
+                    print(lexeme, "RELATIONALS_OF");
+                } else if (isToken(lexeme, "is")) {
+                    print(lexeme, "RELATIONALS_IS");
 
                 //TASKS (Functions)
                 } else if (isToken(lexeme, "show")) {
@@ -211,7 +216,11 @@ public class NewLexical {
                 //UNION
                 } else if (isToken(lexeme, "union")) {
                     print(lexeme, "UNION");
-
+                
+                //NOISE WORDS     
+                }else if(isToken(lexeme, "a") ||
+                            isToken(lexeme, "an")) {
+                            print(lexeme, "NOISE_WORDS");
 
                 //OPERATORS
                     //Arithmetic
