@@ -155,17 +155,23 @@ public class NewLexical {
 
             //split code by...
             sc.useDelimiter(//whitespace between keywords
-                            "\s");
+                            "(?<=.)\s+"
                             //if before is integer + whitespace, and after is operator
-                            //+ "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
+                            + "|(?<=\\d\\s+)(?=[()+-/*%<>=&|])" 
                             // //if before is operator + whitespace, and after is integer
-                            //+ "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
-                            // //if before is integer, and after is operator
-                            //+ "|(?<=\\d)(?=[()+-/*%<>=&|])"
-                            // //if before is operator, and after is integer
-                            //+ "|(?<=[()+-/*%<>=&|])(?=\\d)"
+                            + "|(?<=[()+-/*%<>=&|]\\s+)(?=\\d)"
+                            // //if before is integer, and after is operator but not period
+                            + "|(?<=\\d)(?=[()+-/*%<>=&|])(?![.])"
+                            // //if before is operator but not a period, and after is integer
+                            + "|(?<=[()+-/*%<>=&|])(?<![.])(?=\\d)"
                             //separate literals with commas
-                            // + "|(?=,\s*)");
+                            + "|(?=,)|(?<=,)\s"
+                            //exclude single-line & multi-line comments 
+                            + "|\\s*(//.*|/\\*(.|\\R)*?\\*/)\\s*"
+                            //separates newline from other words
+                            + "|\\s(?=[^\"]*\"[^\"]*\")");
+                            //separate multi-line comments
+                            // + "|(?==/*.*/)"
             
             
 
@@ -357,8 +363,6 @@ public class NewLexical {
                         print(lexeme, "OR_OPERATOR");  
                     } else  if (matches(lexeme, "!")) {
                         print(lexeme, "NOT_OPERATOR");
-                    
-                    // sc.useDelimiter("");
                     } else if (lexeme.contains("(") && !lexeme.contains(")")) {
                         print(lexeme, "INVALID: UNMATCHED PARENTHESES");
                     } else if (lexeme.contains(")") && !lexeme.contains("(")) {
@@ -373,6 +377,8 @@ public class NewLexical {
                     print(lexeme, "DELIMITER_TAB");
                 } else if (matches(lexeme,"\n")) {
                     print(lexeme, "DELIMITER_NEWLINE");
+                } else if (matches(lexeme,"\s")) {
+                    print(lexeme, "WARNING: EXCESS WHITESPACES");
                 
                 //LITERALS
                 } else if (matches(lexeme, "[0-9]+")) {
@@ -387,17 +393,15 @@ public class NewLexical {
                     print(lexeme, "CHARACTER_LITERAL");
                 }  else if (isToken(lexeme, "null")) {
                     print(lexeme, "NULL_LITERAL");
-                } else if (lexeme.equals('\"')) {
-                    String literal = matchNext(lexeme, "\s", "\"", sc);
-                    print(literal, "STRING_LITERAL");
+                } else if (matches(lexeme, "\"\s*\\w\s*\"")) {
+                    print(lexeme, "STRING");
 
                 //COMMENTS
-                } else if (lexeme.contains("\\\\")) {
-                    String comment = matchNext(lexeme, "\n", "\n", sc);
-                    print(comment, "COMMENTS");
-                } else if (lexeme.contains("/*")) {
-                    String literal = scanMultiLineComment(lexeme, sc);
-                    print(literal, "MULTI-LINE COMMENT");
+                // } else if (lexeme.contains("//")) {
+                //     print(lexeme, "COMMENTS");
+                // } else if (lexeme.contains("/**/")) {
+                //     // String literal = scanMultiLineComment(lexeme, sc);
+                //     print(lexeme, "MULTI-LINE COMMENT");
 
                 //IDENTIFIER
                 } else if (matches(lexeme,"[a-zA-Z_\\p{Sc}][a-zA-Z0-9._]*")) {

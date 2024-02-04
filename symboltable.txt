@@ -1,45 +1,49 @@
 LEXEME               | TOKEN               
 ------------------------------
+                     | INVALID: unrecognized characters
 A                    | NOISE_WORDS         
-Score                | IDENTIFIER          
+score                | IDENTIFIER          
+be                   | ASSIGNMENT_KEYWORD  
 could                | DATATYPE_LIMITER    
 only                 | DATATYPE_LIMITER    
 be                   | ASSIGNMENT_KEYWORD  
-from                 | IDENTIFIER          
+"d"                  | STRING              
+,                    | DELIMITER_COMMA     
+"d"                  | STRING              
+                     | INVALID: unrecognized characters
+A                    | NOISE_WORDS         
+score                | IDENTIFIER          
+could                | DATATYPE_LIMITER    
+only                 | DATATYPE_LIMITER    
+be                   | ASSIGNMENT_KEYWORD  
 1                    | INTEGER_LITERAL     
-to                   | PREPOSITION_TO      
-100                  | INTEGER_LITERAL     
+,                    | DELIMITER_COMMA     
+2                    | INTEGER_LITERAL     
+,                    | DELIMITER_COMMA     
+3                    | INTEGER_LITERAL     
+                     | INVALID: unrecognized characters
+def                  | IDENTIFIER          
+function             | IDENTIFIER          
                      | INVALID: unrecognized characters
                      | INVALID: unrecognized characters
-Let                  | INVALID: "let" is mispelled
-Score:               | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+print                | IDENTIFIER          
+the                  | INVALID: "then" is mispelled
+word                 | IDENTIFIER          
+                     | INVALID: unrecognized characters
+Let                  | VARIABLE_INITIALIZER
+score                | IDENTIFIER          
 x                    | CHARACTER_LITERAL   
 be                   | ASSIGNMENT_KEYWORD  
-10                   | INTEGER_LITERAL     
-                     | INVALID: unrecognized characters
-Let                  | INVALID: "let" is mispelled
-Score:               | INVALID: unrecognized characters
-y                    | CHARACTER_LITERAL   
-be                   | ASSIGNMENT_KEYWORD  
-50                   | INTEGER_LITERAL     
-                     | INVALID: unrecognized characters
-Let                  | INVALID: "let" is mispelled
-Total:               | INVALID: unrecognized characters
-z                    | CHARACTER_LITERAL   
-be                   | ASSIGNMENT_KEYWORD  
-x                    | CHARACTER_LITERAL   
+3                    | INTEGER_LITERAL     
 +                    | ARITHMETIC_OPERATORS
-y                    | CHARACTER_LITERAL   
+3                    | INTEGER_LITERAL     
+3                    | INTEGER_LITERAL     
++                    | ARITHMETIC_OPERATORS
+3                    | INTEGER_LITERAL     
+=                    | CHARACTER_LITERAL   
                      | INVALID: unrecognized characters
-Show                 | PRINT               
-Total                | IDENTIFIER          
-z                    | CHARACTER_LITERAL   
+3.12                 | FLOAT_LITERAL       
                      | INVALID: unrecognized characters
-"HELOL"              | INVALID: unrecognized characters
-                     | INVALID: unrecognized characters
-//                   | INVALID: unrecognized characters
-aesunoetaitnoai      | IDENTIFIER          
-                     | INVALID: unrecognized characters
-                     | INVALID: unrecognized characters
-                     | INVALID: unrecognized characters
-/*aeuaoneiniae*/     | MULTI-LINE COMMENT  
+"hello               | INVALID: unrecognized characters
+d"                  | INVALID: unrecognized characters
