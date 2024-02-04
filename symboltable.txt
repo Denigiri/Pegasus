@@ -1,6 +1,8 @@
 LEXEME               | TOKEN               
 ------------------------------
                      | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
+                     | INVALID: unrecognized characters
 A                    | NOISE_WORDS         
 score                | IDENTIFIER          
 be                   | ASSIGNMENT_KEYWORD  
@@ -10,7 +12,9 @@ be                   | ASSIGNMENT_KEYWORD
 "d"                  | STRING              
 ,                    | DELIMITER_COMMA     
 "d"                  | STRING              
-                     | INVALID: unrecognized characters
+,                    | DELIMITER_COMMA     
+"h"                  | STRING              
+"h"                  | STRING              
 A                    | NOISE_WORDS         
 score                | IDENTIFIER          
 could                | DATATYPE_LIMITER    
@@ -21,7 +25,9 @@ be                   | ASSIGNMENT_KEYWORD
 2                    | INTEGER_LITERAL     
 ,                    | DELIMITER_COMMA     
 3                    | INTEGER_LITERAL     
-                     | INVALID: unrecognized characters
+Let                  | VARIABLE_INITIALIZER
+score                | IDENTIFIER          
+123d                 | INVALID: identifier cannot start with number
 def                  | IDENTIFIER          
 function             | IDENTIFIER          
                      | INVALID: unrecognized characters
@@ -30,7 +36,6 @@ function             | IDENTIFIER
 print                | IDENTIFIER          
 the                  | INVALID: "then" is mispelled
 word                 | IDENTIFIER          
-                     | INVALID: unrecognized characters
 Let                  | VARIABLE_INITIALIZER
 score                | IDENTIFIER          
 x                    | CHARACTER_LITERAL   
@@ -42,8 +47,7 @@ be                   | ASSIGNMENT_KEYWORD
 +                    | ARITHMETIC_OPERATORS
 3                    | INTEGER_LITERAL     
 =                    | CHARACTER_LITERAL   
-                     | INVALID: unrecognized characters
 3.12                 | FLOAT_LITERAL       
-                     | INVALID: unrecognized characters
 "hello               | INVALID: unrecognized characters
-d"                  | INVALID: unrecognized characters
+d"
+                 | INVALID: unrecognized characters

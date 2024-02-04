@@ -1,10 +1,20 @@
-//hey kjh
-
-/*boi kjh asdf*/
-A score be could only be "d", "d"
+//single-line comments are not recognized as tokens
+/* multi-line comments 
+  are also not recognized
+*/
+//BUG: NEWLINES AFTER COMMENTS ARE RECOGNIZED AS TOKEN
+//separate string literals with commas with or without spaces
+A score be could only be "d","d", "h" "h"
+//separate integer literals with commas with or without spaces
 A score could only be 1,2, 3
+//invalid identifier
+Let score 123d
+//function declaration with tabs
 def function
     print the word
+//separate operators with or without spaces
 Let score x be 3+3 3 + 3 =
+//separate float literals
 3.12
+//BUG: STRING LITERAL WITH SPACES NOT DETECTED
 "hello d"

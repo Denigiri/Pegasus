@@ -164,8 +164,8 @@ public class NewLexical {
                             + "|(?<=\\d)(?=[()+-/*%<>=&|])(?![.])"
                             // //if before is operator but not a period, and after is integer
                             + "|(?<=[()+-/*%<>=&|])(?<![.])(?=\\d)"
-                            //separate literals with commas
-                            + "|(?=,)|(?<=,)\s"
+                            //separate literals with commas with or without spaces
+                            + "|(?=,)|(?<=,)"
                             //exclude single-line & multi-line comments 
                             + "|\\s*(//.*|/\\*(.|\\R)*?\\*/)\\s*"
                             //separates newline from other words
